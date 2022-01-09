@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
-import { Container, Content, Text, Input, Button } from './style';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import RootParamsRouteList from '../../routes/rootParamsRouteList/ParamsRoutesList';
 
+import { Container, Content, Header, Main, Text, Input, Button } from './style';
 import api from '../../services/api';
 
 interface Altcoins {
@@ -16,10 +19,14 @@ interface Altcoins {
 // type ArrayObject = Altcoins[];
 
 export default function Initial() {
-  const [cryptos, getCryptos] = useState<Altcoins>();
+  const [allCryptos, getAllCryptos] = useState<Altcoins>();
 
   const [cryptoById, setcryptoById] = useState('');
   const [cryptosFiltered, setCryptosFiltered] = useState();
+
+  type ReciveScreens = StackNavigationProp<RootParamsRouteList, 'Singin'>;
+
+  const navigation = useNavigation<ReciveScreens>();
 
   useEffect(() => {
     async function apiCryptos() {
@@ -28,7 +35,7 @@ export default function Initial() {
 
         // console.log(response.data, '>>teste<<');
 
-        getCryptos(response.data);
+        getAllCryptos(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -56,19 +63,26 @@ export default function Initial() {
   return (
     <Container>
       <Content>
-        <Input
-          placeholder="Pesquisar"
-          placeholderTextColor="#999"
-          autoCapitalize="words"
-          autoCorrect={false}
-          value={cryptoById}
-          onChangeText={setcryptoById}
-        />
-        <Button onPress={() => handleCryptoFilter(cryptoById)}>
-          <Text> Click Here</Text>
-        </Button>
-        <Text> {cryptos?.message} </Text>
-        <Text> {cryptos?.data.id} </Text>
+        <Header>
+          <Input
+            placeholder="Pesquisar"
+            placeholderTextColor="#999"
+            autoCapitalize="words"
+            autoCorrect={false}
+            value={cryptoById}
+            onChangeText={setcryptoById}
+          />
+        </Header>
+
+        <Main>
+          <Button onPress={() => handleCryptoFilter(cryptoById)}>
+            <Text> Click Here</Text>
+          </Button>
+          <Button onPress={() => navigation.navigate('Singin')}>
+            <Text> Move </Text>
+          </Button>
+          <Text> {cryptosFiltered?.data.id} </Text>
+        </Main>
       </Content>
     </Container>
   );
