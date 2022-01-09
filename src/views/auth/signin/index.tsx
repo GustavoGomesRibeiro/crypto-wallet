@@ -6,15 +6,15 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import RootParamsRouteList from '../../../routes/rootParamsRouteList/ParamsRoutesList';
 
+import Button from '../../../components/Button/index';
+import Input from '../../../components/Input/index';
+
 import {
   Container,
   Text,
   Header,
   Icon,
   Main,
-  Input,
-  Button,
-  Enter,
   Footer,
   Register,
   Separator,
@@ -25,7 +25,7 @@ import {
   IconArrowUp,
 } from './style';
 
-export default function Singin() {
+export default function Signin() {
   type ReciveScreens = NativeStackNavigationProp<
     RootParamsRouteList,
     'Initial'
@@ -41,13 +41,21 @@ export default function Singin() {
         <AntDesign name="arrowleft" size={20} color="#000" />
       </Icon>
       <Main>
-        <Input placeholder="Login" placeholderTextColor="#fff" />
-        <Input placeholder="Senha" placeholderTextColor="#fff" />
-        <Button>
-          <Enter>Entrar</Enter>
-        </Button>
+        <Input
+          name="login"
+          icon="user"
+          placeholder="Login"
+          autoCapitalize="none"
+        />
+        <Input
+          name="senha"
+          icon="lock"
+          placeholder="Senha"
+          secureTextEntry={true}
+        />
+        <Button>Entrar</Button>
         <Footer>
-          <Register>
+          <Register onPress={() => navigation.navigate('Signup')}>
             <Text>Signup</Text>
           </Register>
         </Footer>

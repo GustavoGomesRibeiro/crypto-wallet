@@ -19,30 +19,6 @@ export const Main = styled.View`
   align-items: center;
 `;
 
-export const Input = styled.TextInput`
-  width: 300px;
-  height: 50px;
-  border-radius: 10px;
-  background: #23212c;
-  margin-top: 10px;
-`;
-
-export const Button = styled.TouchableOpacity`
-  justify-content: center;
-  align-items: center;
-  width: 300px;
-  height: 50px;
-  background: #000;
-  border-radius: 10px;
-  margin-top: 10px;
-`;
-
-export const Enter = styled.Text`
-  color: #fff;
-  font-family: Poppins_700Bold;
-  font-size: 16px;
-`;
-
 export const Footer = styled.View`
   margin-top: 10px;
 `;

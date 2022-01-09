@@ -4,7 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { RootParamsRouteList } from './rootParamsRouteList/ParamsRoutesList';
 
 import Initial from '../views/initial/index';
-import Singin from '../views/auth/signin/index';
+import Signin from '../views/auth/signin/index';
+import Signup from '../views/auth/signup/index';
 
 const Stack = createStackNavigator<RootParamsRouteList>();
 
@@ -17,9 +18,14 @@ export default function UserRouter() {
         options={{ title: 'Tela Inicial', headerShown: false }}
       />
       <Stack.Screen
-        name="Singin"
-        component={Singin}
-        options={{ title: 'Singin', headerShown: false }}
+        name="Signin"
+        component={Signin}
+        options={{ title: 'Signin', headerShown: false }}
+      />
+      <Stack.Screen
+        name="Signup"
+        component={Signup}
+        options={{ title: 'Signup', headerShown: false }}
       />
     </Stack.Navigator>
   );

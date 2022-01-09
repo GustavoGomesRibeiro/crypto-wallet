@@ -24,7 +24,7 @@ export default function Initial() {
   const [cryptoById, setcryptoById] = useState('');
   const [cryptosFiltered, setCryptosFiltered] = useState();
 
-  type ReciveScreens = StackNavigationProp<RootParamsRouteList, 'Singin'>;
+  type ReciveScreens = StackNavigationProp<RootParamsRouteList, 'Signin'>;
 
   const navigation = useNavigation<ReciveScreens>();
 
@@ -78,7 +78,7 @@ export default function Initial() {
           <Button onPress={() => handleCryptoFilter(cryptoById)}>
             <Text> Click Here</Text>
           </Button>
-          <Button onPress={() => navigation.navigate('Singin')}>
+          <Button onPress={() => navigation.navigate('Signin')}>
             <Text> Move </Text>
           </Button>
           <Text> {cryptosFiltered?.data.id} </Text>

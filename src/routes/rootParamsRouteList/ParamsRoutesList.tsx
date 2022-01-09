@@ -1,4 +1,5 @@
 export type RootParamsRouteList = {
   Initial: undefined;
-  Singin: undefined;
+  Signin: undefined;
+  Signup: undefined;
 };
