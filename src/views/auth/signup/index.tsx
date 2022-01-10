@@ -11,29 +11,38 @@ import Button from '../../../components/Button/index';
 
 import { Container, Header, Text, Icon, Main } from './style';
 
+interface RegisterUser {
+  email: string;
+  name: string;
+  last_name: string;
+  password: string;
+}
+
 export default function Signup() {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [last_name, setLastname] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   type ReciveScreen = NativeStackNavigationProp<RootParamsRouteList, 'Signin'>;
   const navigation = useNavigation<ReciveScreen>();
 
   const handleRegister = async () => {
-    if (!email || !name || !lastname || !password) {
+    if (!email || !name || !last_name || !password) {
       Alert.alert('Informações invalidas', 'Os campos não podem ficar vazios!');
     } else {
       try {
-        const response = await api.create('/users', {
+        const response = await api.post<RegisterUser>('/users', {
           email,
           name,
-          lastname,
+          last_name,
           password,
         });
-        console.log(response);
-        navigation.navigate('signin');
+
+        Alert.alert('Cadastro realizado!');
+        navigation.navigate('Signin');
       } catch (error) {
+        console.log(error);
         Alert.alert(
           'Erro ao registrar',
           'Ops algo deu errado. Tente novamente!',
@@ -41,7 +50,6 @@ export default function Signup() {
       }
     }
   };
-
   return (
     <Container>
       <Header>
@@ -70,7 +78,7 @@ export default function Signup() {
           placeholder="Sobrenome"
           name="sobrenome"
           icon="user"
-          value={lastname}
+          value={last_name}
           onChangeText={setLastname}
         />
         <Input
@@ -81,14 +89,14 @@ export default function Signup() {
           value={password}
           onChangeText={setPassword}
         />
-        <Input
+        {/* <Input
           placeholder="Repita sua senha"
           name="senha"
           icon="lock"
           secureTextEntry={true}
           value={password}
           onChangeText={setPassword}
-        />
+        /> */}
         <Button onPress={handleRegister}> Cadastrar </Button>
       </Main>
     </Container>
