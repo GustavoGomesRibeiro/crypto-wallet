@@ -39,7 +39,7 @@ export const Separator = styled.View`
   background: #e0dfdf;
 `;
 
-export const Token = styled.TouchableOpacity`
+export const TokenContent = styled.TouchableOpacity`
   flex: 2;
   padding: 10px 20px;
   flex-direction: row;

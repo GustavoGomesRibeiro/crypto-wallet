@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Alert } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import RootParamsRouteList from '../../../routes/rootParamsRouteList/ParamsRoutesList';
+import api from '../../../services/api';
 
 import Button from '../../../components/Button/index';
 import Input from '../../../components/Input/index';
@@ -18,20 +20,43 @@ import {
   Footer,
   Register,
   Separator,
-  Token,
+  TokenContent,
   IconKey,
   LabelToken,
   TextToken,
   IconArrowUp,
 } from './style';
 
+interface Login {
+  email: string;
+  password: string;
+}
+
 export default function Signin() {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
   type ReciveScreens = NativeStackNavigationProp<
     RootParamsRouteList,
     'Initial'
   >;
   const navigation = useNavigation<ReciveScreens>();
 
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Informações invalidas', 'Os campos não podem ficar vazios!');
+    } else {
+      try {
+        const response = await api.post<Login>('/login', {
+          email,
+          password,
+        });
+        navigation.navigate('Home');
+      } catch (error) {
+        Alert.alert('Ops!', 'Alguma coisa deu errado');
+      }
+    }
+  };
   return (
     <Container>
       <Header>
@@ -42,18 +67,22 @@ export default function Signin() {
       </Icon>
       <Main>
         <Input
-          name="login"
+          name="email"
           icon="user"
-          placeholder="Login"
+          placeholder="Email"
           autoCapitalize="none"
+          value={email}
+          onChangeText={setEmail}
         />
         <Input
-          name="senha"
+          name="password"
           icon="lock"
           placeholder="Senha"
           secureTextEntry={true}
+          value={password}
+          onChangeText={setPassword}
         />
-        <Button>Entrar</Button>
+        <Button onPress={handleLogin}>Entrar</Button>
         <Footer>
           <Register onPress={() => navigation.navigate('Signup')}>
             <Text>Signup</Text>
@@ -61,7 +90,7 @@ export default function Signin() {
         </Footer>
       </Main>
       <Separator />
-      <Token>
+      <TokenContent onPress={() => navigation.navigate('Token')}>
         <IconKey>
           <MaterialCommunityIcons name="key" size={18} color="#000" />
         </IconKey>
@@ -77,7 +106,7 @@ export default function Signin() {
             color="#000"
           />
         </IconArrowUp>
-      </Token>
+      </TokenContent>
     </Container>
   );
 }

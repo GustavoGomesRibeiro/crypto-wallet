@@ -66,6 +66,7 @@ export default function Signup() {
           icon="mail"
           value={email}
           onChangeText={setEmail}
+          keyboardType="email-address"
         />
         <Input
           placeholder="Nome"
