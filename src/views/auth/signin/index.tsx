@@ -3,6 +3,8 @@ import { Alert } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import RootParamsRouteList from '../../../routes/rootParamsRouteList/ParamsRoutesList';
@@ -30,6 +32,8 @@ import {
 interface Login {
   email: string;
   password: string;
+  token: string;
+  name: string;
 }
 
 export default function Signin() {
@@ -51,6 +55,20 @@ export default function Signin() {
           email,
           password,
         });
+
+        const { token } = response.data;
+
+        // console.log(response.data);
+
+        const key = [
+          ['@wallet:token', token],
+          ['@wallet:name', response.data.userExists.name],
+        ];
+
+        await AsyncStorage.multiSet(key);
+
+        // api.defaults.headers.token = `Bearer ${token[1]}`;
+
         navigation.navigate('Home');
       } catch (error) {
         Alert.alert('Ops!', 'Alguma coisa deu errado');

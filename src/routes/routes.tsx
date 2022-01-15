@@ -1,6 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import { RootParamsRouteList } from './rootParamsRouteList/ParamsRoutesList';
 
 import Initial from '../views/initial/index';
@@ -9,14 +11,79 @@ import Signup from '../views/auth/signup/index';
 import Token from '../views/auth/token/index';
 import Home from '../views/home/index';
 
+// Tab
+import Crypto from '../views/initial/partials/crypto/index';
+import StockInvestiment from '../views/initial/partials/stockInvestiment/index';
+import InvestimentFunds from '../views/initial/partials/stockInvestiment/index';
+
 const Stack = createStackNavigator<RootParamsRouteList>();
+const Tab = createBottomTabNavigator();
+
+const BottomTab = () => (
+  <Tab.Navigator
+    screenOptions={{
+      tabBarStyle: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        elevation: 0,
+        shadowOpacity: 0,
+        height: 80,
+        backgroundColor: '#fff',
+        // borderTopColor: '#000',
+      },
+      tabBarIconStyle: {
+        flex: 1,
+      },
+      tabBarLabelStyle: {
+        fontFamily: 'Archivo_700Bold',
+        fontSize: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+      },
+      tabBarActiveTintColor: '#016be4',
+      tabBarInactiveTintColor: '#969696',
+    }}
+  >
+    <Tab.Screen
+      name="Criptomoedas"
+      component={Crypto}
+      options={{
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => {
+          return <Fontisto name="money-symbol" color={color} size={size} />;
+        },
+      }}
+    />
+    <Tab.Screen
+      name="Ações"
+      component={StockInvestiment}
+      options={{
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => {
+          return <FontAwesome name="line-chart" color={color} size={size} />;
+        },
+      }}
+    />
+    <Tab.Screen
+      name="Fundos Imobiliários"
+      component={InvestimentFunds}
+      options={{
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => {
+          return <FontAwesome name="building" color={color} size={size} />;
+        },
+      }}
+    />
+  </Tab.Navigator>
+);
 
 export default function UserRouter() {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Initial"
-        component={Initial}
+        component={BottomTab}
         options={{ title: 'Tela Inicial', headerShown: false }}
       />
       <Stack.Screen

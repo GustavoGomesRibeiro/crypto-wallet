@@ -8,10 +8,17 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 
+import {
+  Archivo_400Regular,
+  Archivo_700Bold,
+} from '@expo-google-fonts/archivo';
+
 import Router from './src/routes/routes';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
+    Archivo_400Regular,
+    Archivo_700Bold,
     Poppins_400Regular,
     Poppins_700Bold,
   });
