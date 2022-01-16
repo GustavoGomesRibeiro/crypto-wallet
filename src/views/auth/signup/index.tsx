@@ -23,13 +23,22 @@ export default function Signup() {
   const [name, setName] = useState<string>('');
   const [last_name, setLastname] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
 
   type ReciveScreen = NativeStackNavigationProp<RootParamsRouteList, 'Signin'>;
   const navigation = useNavigation<ReciveScreen>();
 
+  // const validatedPassword = () => {
+  //   if (password != confirmPassword) {
+  //     Alert.alert('Ops!', 'As senhas estão diferentes');
+  //   }
+  // };
+
   const handleRegister = async () => {
     if (!email || !name || !last_name || !password) {
       Alert.alert('Informações invalidas', 'Os campos não podem ficar vazios!');
+    } else if (password !== confirmPassword) {
+      Alert.alert('Ops!', 'As senhas estão diferentes');
     } else {
       try {
         const response = await api.post<RegisterUser>('/users', {
@@ -90,14 +99,14 @@ export default function Signup() {
           value={password}
           onChangeText={setPassword}
         />
-        {/* <Input
+        <Input
           placeholder="Repita sua senha"
           name="senha"
           icon="lock"
           secureTextEntry={true}
-          value={password}
-          onChangeText={setPassword}
-        /> */}
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+        />
         <Button onPress={handleRegister}> Cadastrar </Button>
       </Main>
     </Container>
