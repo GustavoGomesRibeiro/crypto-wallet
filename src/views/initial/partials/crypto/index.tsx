@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import api from '../../../../services/api';
 import Header from '../../../../components/Header/index';
 import {
+  Loading,
   Container,
   Main,
   Label,
@@ -10,6 +11,7 @@ import {
   LabelPrice,
   LabelVariation,
   Details,
+  Filtered,
   Coins,
   ViewName,
   Thumb,
@@ -50,7 +52,6 @@ interface Altcoins {
 
 export default function Crypto() {
   const [allCryptos, getAllCryptos] = useState<Altcoins[]>([]);
-  const [cryptosById, getCryptosById] = useState<Altcoins[]>([]);
 
   const [cryptoById, setcryptoById] = useState('');
   const [cryptosFiltered, setCryptosFiltered] = useState();
@@ -59,26 +60,32 @@ export default function Crypto() {
     api.get('/cryptos').then(response => {
       getAllCryptos(response.data);
     });
-  }, []);
+  }, [allCryptos]);
 
   async function handleCryptoFilter(cryptoById) {
     if (!cryptoById) {
       Alert.alert('Ops!', 'Campo de busca não pode ser vazio!');
-    } else {
-      try {
-        const response = await api.get(`/cryptos/${cryptoById}`);
-        // setCryptosFiltered(response.data);
-        setCryptosFiltered(response.data);
-      } catch (error) {
-        Alert.alert('Ops!', 'Algo deu errado ao pesquisar token!');
-      }
+      // return setCryptosFiltered(allCryptos);
+    }
+    try {
+      const response = await api.get(`/cryptos/${cryptoById}`);
+      setCryptosFiltered(response.data);
+    } catch (error) {
+      Alert.alert('Ops!', 'Algo deu errado ao pesquisar token!');
     }
   }
 
   // console.log(cryptosFiltered?.data?.id, '>>get btc<<');
 
   if (!allCryptos?.data) {
-    return <Text> Loading...</Text>;
+    return (
+      <>
+        <Header />
+        <Loading>
+          <Text> Loading...</Text>
+        </Loading>
+      </>
+    );
   }
 
   return (
@@ -94,54 +101,93 @@ export default function Crypto() {
           <LabelPrice> Último preço </LabelPrice>
           <LabelVariation>% alt. 24h</LabelVariation>
         </Label>
-        {allCryptos?.data.map(crypto => {
-          return (
-            <Coins key={crypto.id}>
-              <Details>
-                <ViewName>
-                  {crypto.name === undefined || '' ? (
-                    <NameCoin>--/--</NameCoin>
+        {cryptosFiltered === undefined || '' ? (
+          allCryptos?.data.map(crypto => {
+            return (
+              <Coins key={crypto.id}>
+                <Details>
+                  <ViewName>
+                    {crypto.name === undefined || '' ? (
+                      <NameCoin>--/--</NameCoin>
+                    ) : (
+                      <>
+                        <Thumb source={{ uri: crypto.image.thumb }} />
+                        <NameCoin>{crypto.name}</NameCoin>
+                      </>
+                    )}
+                  </ViewName>
+                  {crypto.market_data?.current_price?.brl === undefined ||
+                  '' ? (
+                    <CurrentPrice>R$ --</CurrentPrice>
                   ) : (
-                    <>
-                      <Thumb source={{ uri: crypto.image.thumb }} />
-                      <NameCoin>{crypto.name}</NameCoin>
-                    </>
+                    <CurrentPrice>
+                      R$
+                      {crypto.market_data?.current_price?.brl
+                        .toFixed(2)
+                        .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                    </CurrentPrice>
                   )}
-                </ViewName>
-                {crypto.market_data?.current_price?.brl === undefined || '' ? (
-                  <CurrentPrice>R$ --</CurrentPrice>
-                ) : (
-                  <CurrentPrice>
-                    R$
-                    {crypto.market_data?.current_price?.brl
-                      .toFixed(2)
-                      .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
-                  </CurrentPrice>
-                )}
 
-                {crypto.market_data?.price_change_percentage_24h >= 0 ? (
-                  <Variation>
-                    <Number>
-                      {crypto.market_data?.price_change_percentage_24h.toFixed(
-                        2,
-                      )}
-                      %
-                    </Number>
-                  </Variation>
-                ) : (
-                  <NegativeVariation>
-                    <Number>
-                      {crypto.market_data?.price_change_percentage_24h.toFixed(
-                        2,
-                      )}
-                      %
-                    </Number>
-                  </NegativeVariation>
-                )}
-              </Details>
-            </Coins>
-          );
-        })}
+                  {crypto.market_data?.price_change_percentage_24h >= 0 ? (
+                    <Variation>
+                      <Number>
+                        {crypto.market_data?.price_change_percentage_24h.toFixed(
+                          2,
+                        )}
+                        %
+                      </Number>
+                    </Variation>
+                  ) : (
+                    <NegativeVariation>
+                      <Number>
+                        {crypto.market_data?.price_change_percentage_24h.toFixed(
+                          2,
+                        )}
+                        %
+                      </Number>
+                    </NegativeVariation>
+                  )}
+                </Details>
+              </Coins>
+            );
+          })
+        ) : (
+          <Filtered>
+            <Details>
+              <ViewName>
+                <Thumb source={{ uri: cryptosFiltered?.data?.image.thumb }} />
+                <NameCoin>{cryptosFiltered?.data?.name}</NameCoin>
+              </ViewName>
+              <CurrentPrice>
+                R$
+                {cryptosFiltered?.data?.market_data?.current_price?.brl
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+              </CurrentPrice>
+
+              {cryptosFiltered?.data?.market_data
+                ?.price_change_percentage_24h >= 0 ? (
+                <Variation>
+                  <Number>
+                    {cryptosFiltered?.data?.market_data?.price_change_percentage_24h.toFixed(
+                      2,
+                    )}
+                    %
+                  </Number>
+                </Variation>
+              ) : (
+                <NegativeVariation>
+                  <Number>
+                    {cryptosFiltered?.data?.market_data?.price_change_percentage_24h.toFixed(
+                      2,
+                    )}
+                    %
+                  </Number>
+                </NegativeVariation>
+              )}
+            </Details>
+          </Filtered>
+        )}
       </Main>
     </Container>
   );

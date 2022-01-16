@@ -1,9 +1,19 @@
 import styled from 'styled-components/native';
 
+export const Loading = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const Container = styled.View``;
+
 export const Text = styled.Text``;
 
 export const Main = styled.ScrollView``;
+
+export const Filtered = styled.TouchableOpacity``;
+
 export const Coins = styled.TouchableOpacity``;
 
 export const ViewName = styled.View`
