@@ -60,22 +60,19 @@ export default function Crypto() {
     api.get('/cryptos').then(response => {
       getAllCryptos(response.data);
     });
-  }, [allCryptos]);
+  }, []);
 
   async function handleCryptoFilter(cryptoById) {
     if (!cryptoById) {
       Alert.alert('Ops!', 'Campo de busca não pode ser vazio!');
-      // return setCryptosFiltered(allCryptos);
     }
     try {
-      const response = await api.get(`/cryptos/${cryptoById}`);
+      const response = await api.get(`/cryptos/${cryptoById.toLowerCase()}`);
       setCryptosFiltered(response.data);
     } catch (error) {
       Alert.alert('Ops!', 'Algo deu errado ao pesquisar token!');
     }
   }
-
-  // console.log(cryptosFiltered?.data?.id, '>>get btc<<');
 
   if (!allCryptos?.data) {
     return (
@@ -101,7 +98,7 @@ export default function Crypto() {
           <LabelPrice> Último preço </LabelPrice>
           <LabelVariation>% alt. 24h</LabelVariation>
         </Label>
-        {cryptosFiltered === undefined || '' ? (
+        {cryptosFiltered === undefined || cryptoById === '' ? (
           allCryptos?.data.map(crypto => {
             return (
               <Coins key={crypto.id}>

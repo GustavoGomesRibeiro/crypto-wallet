@@ -30,7 +30,7 @@ export const Label = styled.View`
   flex-direction: row;
   justify-content: space-between;
   padding: 0px 25px;
-  margin-top: 10px;
+  margin: 20px 0px;
 `;
 
 export const LabelCoin = styled.Text`
