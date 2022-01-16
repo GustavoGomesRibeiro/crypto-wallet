@@ -3,16 +3,24 @@ import styled from 'styled-components/native';
 export const Container = styled.View``;
 export const Text = styled.Text``;
 
-export const Main = styled.View``;
+export const Main = styled.ScrollView``;
 export const Coins = styled.TouchableOpacity``;
 
 export const ViewName = styled.View`
-  width: 80px;
+  width: 100px;
+  flex-direction: row;
 `;
+
+export const Thumb = styled.Image`
+  width: 20px;
+  height: 20px;
+`;
+
 export const Label = styled.View`
   flex-direction: row;
   justify-content: space-between;
   padding: 0px 25px;
+  margin-top: 10px;
 `;
 
 export const LabelCoin = styled.Text`
@@ -37,12 +45,12 @@ export const Details = styled.View`
   align-items: center;
   height: 50px;
   padding: 0px 25px;
-  background-color: #ccc;
   margin-bottom: 10px;
 `;
 
 export const NameCoin = styled.Text`
   font-family: Archivo_700Bold;
+  margin-left: 10px;
 `;
 
 export const CurrentPrice = styled.Text`
@@ -50,14 +58,30 @@ export const CurrentPrice = styled.Text`
   margin-left: 30px;
 `;
 
-export const Variation = styled.View`
+export const Empty = styled.View`
   justify-content: center;
   align-items: center;
   width: 50px;
   height: 30px;
   border-radius: 5px;
+  background: #ccc;
+`;
+
+export const Variation = styled.View`
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
   background: #2ebc85;
-  /* background: #f3465b; */
+`;
+export const NegativeVariation = styled.View`
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
+  background: #f3465b;
 `;
 
 export const Number = styled.Text`

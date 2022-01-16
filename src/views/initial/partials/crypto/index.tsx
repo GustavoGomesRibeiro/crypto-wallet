@@ -12,80 +12,75 @@ import {
   Details,
   Coins,
   ViewName,
+  Thumb,
   NameCoin,
   CurrentPrice,
+  Empty,
   Variation,
+  NegativeVariation,
   Number,
   Text,
 } from './style';
 
 interface Altcoins {
-  data?: [];
-  market_data?: {
-    current_price?: {
-      brl?: boolean;
-    };
-  };
+  data?: [
+    {
+      id?: string;
+      symbol?: string;
+      name?: string;
+      image: {
+        thumb?: string;
+      };
+    },
+    {
+      market_data?: {
+        current_price?: {
+          brl?: number;
+        };
+        price_change_percentage_24h?: {
+          brl?: number;
+        };
+      };
+    },
+  ];
   success?: boolean;
   id?: string;
   message?: string;
 }
 
 export default function Crypto() {
-  const [allCryptos, getAllCryptos] = useState<Altcoins>();
+  const [allCryptos, getAllCryptos] = useState<Altcoins[]>([]);
+  const [cryptosById, getCryptosById] = useState<Altcoins[]>([]);
 
   const [cryptoById, setcryptoById] = useState('');
   const [cryptosFiltered, setCryptosFiltered] = useState();
 
   useEffect(() => {
-    async function apiCryptosAll() {
-      try {
-        const response = await api.get<Altcoins>('/cryptos');
-
-        // console.log(response.data, '>>teste<<');
-
-        getAllCryptos(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    apiCryptosAll();
-  }, []);
-
-  useEffect(() => {
-    async function apiCryptosById() {
-      try {
-        const response = await api.get<Altcoins>('/cryptos/bitcoin');
-
-        // console.log(response.data, '>>teste<<');
-
-        getAllCryptos(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    apiCryptosById();
+    api.get('/cryptos').then(response => {
+      getAllCryptos(response.data);
+    });
   }, []);
 
   async function handleCryptoFilter(cryptoById) {
     if (!cryptoById) {
-      Alert.alert('Field cannot be empty!');
+      Alert.alert('Ops!', 'Campo de busca não pode ser vazio!');
     } else {
       try {
         const response = await api.get(`/cryptos/${cryptoById}`);
-
+        // setCryptosFiltered(response.data);
         setCryptosFiltered(response.data);
-
-        // console.log(cryptosFiltered.data.id, '>>moeda filtrada<<');
       } catch (error) {
-        Alert.alert('Alguma coisa deu errado');
+        Alert.alert('Ops!', 'Algo deu errado ao pesquisar token!');
       }
     }
   }
 
-  // console.log(allCryptos.market_data?.current_price?.brl, 'TESTE');
+  // console.log(cryptosFiltered?.data?.id, '>>get btc<<');
+
+  if (!allCryptos?.data) {
+    return <Text> Loading...</Text>;
+  }
+
   return (
     <Container>
       <Header
@@ -93,37 +88,60 @@ export default function Crypto() {
         value={cryptoById}
         onChangeText={setcryptoById}
       />
-      {/* <Text> {cryptosFiltered?.data.id} </Text> */}
       <Main>
-        <Coins>
-          <Label>
-            <LabelCoin>Par</LabelCoin>
-            <LabelPrice> Último preço </LabelPrice>
-            <LabelVariation>% alt. 24h</LabelVariation>
-          </Label>
-          <Details>
-            <ViewName>
-              <NameCoin>
-                {allCryptos?.data.name}/{allCryptos?.data.symbol}
-              </NameCoin>
-            </ViewName>
-            {/* <CurrentPrice>{allCryptos?.market_data}</CurrentPrice> */}
-            <Variation>
-              <Number>14%</Number>
-            </Variation>
-          </Details>
-        </Coins>
-        <Coins>
-          <Details>
-            <ViewName>
-              <NameCoin>Ethereum</NameCoin>
-            </ViewName>
-            <CurrentPrice>$400</CurrentPrice>
-            <Variation>
-              <Number>-2%</Number>
-            </Variation>
-          </Details>
-        </Coins>
+        <Label>
+          <LabelCoin>Par</LabelCoin>
+          <LabelPrice> Último preço </LabelPrice>
+          <LabelVariation>% alt. 24h</LabelVariation>
+        </Label>
+        {allCryptos?.data.map(crypto => {
+          return (
+            <Coins key={crypto.id}>
+              <Details>
+                <ViewName>
+                  {crypto.name === undefined || '' ? (
+                    <NameCoin>--/--</NameCoin>
+                  ) : (
+                    <>
+                      <Thumb source={{ uri: crypto.image.thumb }} />
+                      <NameCoin>{crypto.name}</NameCoin>
+                    </>
+                  )}
+                </ViewName>
+                {crypto.market_data?.current_price?.brl === undefined || '' ? (
+                  <CurrentPrice>R$ --</CurrentPrice>
+                ) : (
+                  <CurrentPrice>
+                    R$
+                    {crypto.market_data?.current_price?.brl
+                      .toFixed(2)
+                      .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                  </CurrentPrice>
+                )}
+
+                {crypto.market_data?.price_change_percentage_24h >= 0 ? (
+                  <Variation>
+                    <Number>
+                      {crypto.market_data?.price_change_percentage_24h.toFixed(
+                        2,
+                      )}
+                      %
+                    </Number>
+                  </Variation>
+                ) : (
+                  <NegativeVariation>
+                    <Number>
+                      {crypto.market_data?.price_change_percentage_24h.toFixed(
+                        2,
+                      )}
+                      %
+                    </Number>
+                  </NegativeVariation>
+                )}
+              </Details>
+            </Coins>
+          );
+        })}
       </Main>
     </Container>
   );

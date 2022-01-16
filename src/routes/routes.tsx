@@ -27,12 +27,13 @@ const BottomTab = () => (
         justifyContent: 'center',
         elevation: 0,
         shadowOpacity: 0,
-        height: 80,
+        height: 100,
         backgroundColor: '#fff',
-        // borderTopColor: '#000',
+        borderTopColor: '#fff',
       },
       tabBarIconStyle: {
         flex: 1,
+        marginTop: 10,
       },
       tabBarLabelStyle: {
         fontFamily: 'Archivo_700Bold',
