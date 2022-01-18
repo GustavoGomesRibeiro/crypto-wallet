@@ -104,7 +104,7 @@ export default function Signin() {
         <Button onPress={handleLogin}>Entrar</Button>
         <Footer>
           <Register onPress={() => navigation.navigate('Signup')}>
-            <Text>Signup</Text>
+            <Text>Crie sua conta</Text>
           </Register>
         </Footer>
       </Main>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Alert } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import { Alert, KeyboardAvoidingView } from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -9,7 +9,19 @@ import api from '../../../services/api';
 import Input from '../../../components/Input/index';
 import Button from '../../../components/Button/index';
 
-import { Container, Header, Text, Icon, Main } from './style';
+import {
+  Container,
+  Content,
+  Header,
+  Main,
+  Label,
+  LabelRequired,
+  ContentRequired,
+  RequiredField,
+  RequiredText,
+  Text,
+  Icon,
+} from './style';
 
 interface RegisterUser {
   email: string;
@@ -27,12 +39,6 @@ export default function Signup() {
 
   type ReciveScreen = NativeStackNavigationProp<RootParamsRouteList, 'Signin'>;
   const navigation = useNavigation<ReciveScreen>();
-
-  // const validatedPassword = () => {
-  //   if (password != confirmPassword) {
-  //     Alert.alert('Ops!', 'As senhas estão diferentes');
-  //   }
-  // };
 
   const handleRegister = async () => {
     if (!email || !name || !last_name || !password) {
@@ -59,56 +65,132 @@ export default function Signup() {
       }
     }
   };
+
+  // const validateEmail = text => {
+  //   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+
+  //   if (reg.test(text) === false) {
+  //     setEmail({ text });
+  //     return false;
+  //   }
+  //   setEmail({ text });
+  //   console.log('Email is Correct');
+  // };
+
   return (
     <Container>
-      <Header>
-        <Text></Text>
-      </Header>
-      <Icon onPress={() => navigation.navigate('Signin')}>
-        <AntDesign name="arrowleft" size={20} color="#000" />
-      </Icon>
-
-      <Main>
-        <Input
-          placeholder="Email"
-          name="email"
-          icon="mail"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-        />
-        <Input
-          placeholder="Nome"
-          name="nome"
-          icon="user"
-          value={name}
-          onChangeText={setName}
-        />
-        <Input
-          placeholder="Sobrenome"
-          name="sobrenome"
-          icon="user"
-          value={last_name}
-          onChangeText={setLastname}
-        />
-        <Input
-          placeholder="Senha"
-          name="senha"
-          icon="lock"
-          secureTextEntry={true}
-          value={password}
-          onChangeText={setPassword}
-        />
-        <Input
-          placeholder="Repita sua senha"
-          name="senha"
-          icon="lock"
-          secureTextEntry={true}
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-        />
-        <Button onPress={handleRegister}> Cadastrar </Button>
-      </Main>
+      <Content>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+          <Main>
+            <Label>
+              <RequiredField>Email</RequiredField>
+            </Label>
+            <Input
+              placeholder="Email"
+              name="email"
+              icon="mail"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+            />
+            <LabelRequired>
+              {!email ? (
+                <ContentRequired>
+                  <RequiredText>Campo obrigatório</RequiredText>
+                  <MaterialIcons name="error" size={20} color="#c42323" />
+                </ContentRequired>
+              ) : (
+                <></>
+              )}
+            </LabelRequired>
+            <Label>
+              <RequiredField>Nome</RequiredField>
+            </Label>
+            <Input
+              placeholder="Nome"
+              name="nome"
+              icon="user"
+              value={name}
+              onChangeText={setName}
+            />
+            <LabelRequired>
+              {!name ? (
+                <ContentRequired>
+                  <RequiredText>Campo obrigatório</RequiredText>
+                  <MaterialIcons name="error" size={20} color="#c42323" />
+                </ContentRequired>
+              ) : (
+                <></>
+              )}
+            </LabelRequired>
+            <Label>
+              <RequiredField>Sobrenome</RequiredField>
+            </Label>
+            <Input
+              placeholder="Sobrenome"
+              name="sobrenome"
+              icon="user"
+              value={last_name}
+              onChangeText={setLastname}
+            />
+            <LabelRequired>
+              {!last_name ? (
+                <ContentRequired>
+                  <RequiredText>Campo obrigatório</RequiredText>
+                  <MaterialIcons name="error" size={20} color="#c42323" />
+                </ContentRequired>
+              ) : (
+                <></>
+              )}
+            </LabelRequired>
+            <Label>
+              <RequiredField>Senha</RequiredField>
+            </Label>
+            <Input
+              placeholder="Senha"
+              name="senha"
+              icon="lock"
+              secureTextEntry={true}
+              value={password}
+              onChangeText={setPassword}
+            />
+            <LabelRequired>
+              {!password ? (
+                <ContentRequired>
+                  <RequiredText>Campo obrigatório</RequiredText>
+                  <MaterialIcons name="error" size={20} color="#c42323" />
+                </ContentRequired>
+              ) : (
+                <></>
+              )}
+            </LabelRequired>
+            <Label>
+              <RequiredField>Repita sua senha</RequiredField>
+            </Label>
+            <Input
+              placeholder="Repita sua senha"
+              name="senha"
+              icon="lock"
+              secureTextEntry={true}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+            />
+            <LabelRequired style={{ marginBottom: 15 }}>
+              {!confirmPassword ? (
+                <ContentRequired>
+                  <RequiredText>Campo obrigatório</RequiredText>
+                  <MaterialIcons name="error" size={20} color="#c42323" />
+                </ContentRequired>
+              ) : (
+                <></>
+              )}
+            </LabelRequired>
+            <Button onPress={handleRegister}> Cadastrar </Button>
+          </Main>
+        </KeyboardAvoidingView>
+      </Content>
     </Container>
   );
 }

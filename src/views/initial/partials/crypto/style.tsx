@@ -97,3 +97,6 @@ export const NegativeVariation = styled.View`
 export const Number = styled.Text`
   font-family: Archivo_700Bold;
 `;
+
+export const Button = styled.TouchableOpacity``;
+export const Teste = styled.Text``;

@@ -95,7 +95,7 @@ export default function UserRouter() {
       <Stack.Screen
         name="Signup"
         component={Signup}
-        options={{ title: 'Signup', headerShown: false }}
+        options={{ title: 'Criar uma conta' }}
       />
       <Stack.Screen
         name="Token"
