@@ -14,6 +14,7 @@ import {
 } from '@expo-google-fonts/archivo';
 
 import Router from './src/routes/routes';
+import AppProvider from './src/hooks/index';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -29,7 +30,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="auto" />
-      <Router />
+      <AppProvider>
+        <Router />
+      </AppProvider>
     </NavigationContainer>
   );
 }

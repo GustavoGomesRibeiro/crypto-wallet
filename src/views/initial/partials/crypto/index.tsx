@@ -19,13 +19,10 @@ import {
   Thumb,
   NameCoin,
   CurrentPrice,
-  Empty,
   Variation,
   NegativeVariation,
   Number,
   Text,
-  Button,
-  Teste,
 } from './style';
 
 interface Altcoins {
@@ -131,39 +128,19 @@ export default function Crypto() {
     return token;
   }
 
-  // Notifications.scheduleNotificationAsync({
-  //   content: {
-  //     sound: 'default',
-  //     title: 'Informações das criptomoedas 💰',
-  //     body: 'Você tem uma nova menssagem',
-  //     // data: { data: allCryptos?.data[0].name },
-  //   },
-  //   trigger: {
-  //     seconds: 30,
-  //   },
-  // });
-
-  const sendNotification = token => {
-    fetch('https://exp.host/--/api/v2/push/send', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Accept-Encoding': 'gzip,deflate',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        to: token,
-        sound: 'default',
-        title: 'Informações das criptomoedas 💰',
-        body: 'Você tem uma nova menssagem',
-        data: { data: allCryptos?.data[0].name },
-        _displayInforeground: true,
-        trigger: {
-          seconds: 60,
-        },
-      }),
-    });
-  };
+  // local: send notification
+  Notifications.scheduleNotificationAsync({
+    content: {
+      sound: 'default',
+      title: 'Informações das criptomoedas 💰',
+      body: 'Você tem uma nova menssagem',
+      data: { data: allCryptos?.success },
+    },
+    trigger: {
+      seconds: 3600,
+      repeats: true,
+    },
+  });
 
   async function handleCryptoFilter(cryptoById) {
     if (!cryptoById) {
@@ -196,9 +173,6 @@ export default function Crypto() {
         onChangeText={setcryptoById}
       />
       <Main>
-        <Button>
-          <Teste onPress={() => sendNotification(expoPushToken)}>Enviar</Teste>
-        </Button>
         <Label>
           <LabelCoin>Par</LabelCoin>
           <LabelPrice> Último preço </LabelPrice>

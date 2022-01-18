@@ -68,15 +68,6 @@ export const CurrentPrice = styled.Text`
   margin-left: 30px;
 `;
 
-export const Empty = styled.View`
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 30px;
-  border-radius: 5px;
-  background: #ccc;
-`;
-
 export const Variation = styled.View`
   justify-content: center;
   align-items: center;
@@ -97,6 +88,3 @@ export const NegativeVariation = styled.View`
 export const Number = styled.Text`
   font-family: Archivo_700Bold;
 `;
-
-export const Button = styled.TouchableOpacity``;
-export const Teste = styled.Text``;
