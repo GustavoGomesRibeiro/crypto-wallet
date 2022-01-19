@@ -1,5 +1,6 @@
 import React from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -38,7 +39,7 @@ const Header = ({ value, onChangeText, onPress, ...rest }) => {
         </ContainerInput>
         <Signin onPress={() => navigation.navigate('Signin')}>
           <Text>Login</Text>
-          <MaterialIcons name="login" size={20} color="#000" />
+          <FontAwesome name="sign-in" size={20} color="#000" />
         </Signin>
       </ContentHeader>
     </Container>

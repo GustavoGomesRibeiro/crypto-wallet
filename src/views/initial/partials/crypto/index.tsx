@@ -67,7 +67,7 @@ Notifications.scheduleNotificationAsync({
     // data: { data: allCryptos?.success },
   },
   trigger: {
-    seconds: 3600,
+    seconds: 60 * 60,
     // repeats: true,
   },
 });
