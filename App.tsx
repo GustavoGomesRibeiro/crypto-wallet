@@ -13,7 +13,7 @@ import {
   Archivo_700Bold,
 } from '@expo-google-fonts/archivo';
 
-import Router from './src/routes/routes';
+import Router from './src/routes/router';
 import AppProvider from './src/hooks/index';
 
 export default function App() {

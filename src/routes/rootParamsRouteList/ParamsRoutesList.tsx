@@ -4,4 +4,5 @@ export type RootParamsRouteList = {
   Signup: undefined;
   Token: undefined;
   Home: undefined;
+  Wallet: undefined;
 };

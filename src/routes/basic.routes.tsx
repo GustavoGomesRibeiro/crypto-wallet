@@ -79,7 +79,7 @@ const BottomTab = () => (
   </Tab.Navigator>
 );
 
-export default function UserRouter() {
+export default function BasicRouter() {
   return (
     <Stack.Navigator>
       <Stack.Screen
