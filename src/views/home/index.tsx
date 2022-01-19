@@ -21,9 +21,15 @@ import {
   Details,
   Hide,
   TextInvestments,
+  ContentInvestiments,
   Label,
   Patrimony,
-  Text,
+  Assets,
+  Crypto,
+  Stock,
+  Funds,
+  LabelAssets,
+  TextAssets,
   Footer,
 } from './style';
 
@@ -75,19 +81,35 @@ export default function Home() {
               elevation: 5,
             }}
           >
-            <Details>
-              <MaterialIcons name="swap-vert" size={20} color="#000" />
-              <TextInvestments> Investimentos </TextInvestments>
-              <Label> Patrimônio</Label>
-              <Patrimony>R${visible ? '5.000,00' : ' ----'}</Patrimony>
-            </Details>
-            <Hide onPress={enableVision}>
-              <Feather
-                name={visible ? 'eye' : 'eye-off'}
-                size={20}
-                color="#000"
-              />
-            </Hide>
+            <ContentInvestiments>
+              <Details>
+                <MaterialIcons name="swap-vert" size={20} color="#000" />
+                <TextInvestments> Investimentos </TextInvestments>
+                <Label> Patrimônio</Label>
+                <Patrimony>R${visible ? '5.000,00' : ' ****'}</Patrimony>
+              </Details>
+              <Hide onPress={enableVision}>
+                <Feather
+                  name={visible ? 'eye' : 'eye-off'}
+                  size={20}
+                  color="#000"
+                />
+              </Hide>
+            </ContentInvestiments>
+            <Assets>
+              <Crypto>
+                <LabelAssets>Criptomoedas</LabelAssets>
+                <TextAssets>R${visible ? '2.000,00' : ' ****'}</TextAssets>
+              </Crypto>
+              <Stock>
+                <LabelAssets>Ações</LabelAssets>
+                <TextAssets>R${visible ? '1.000,00' : ' ****'}</TextAssets>
+              </Stock>
+              <Funds>
+                <LabelAssets>FIIS</LabelAssets>
+                <TextAssets>R${visible ? '2.000,00' : ' ****'}</TextAssets>
+              </Funds>
+            </Assets>
           </Investments>
         </Main>
         <Footer></Footer>

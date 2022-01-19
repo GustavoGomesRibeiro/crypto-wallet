@@ -18,6 +18,7 @@ export const TextInput = styled.TextInput`
   font-size: 16px;
 `;
 
+export const Button = styled.TouchableOpacity``;
 export const Icon = styled(FeatherIcon)`
   margin-right: 16px;
   margin-left: 10px;

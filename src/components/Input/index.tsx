@@ -1,13 +1,20 @@
 import React from 'react';
-import { Container, Icon, TextInput } from './style';
+import { Container, Icon, Button, TextInput } from './style';
 
-const Input = ({ value, onChangeText, name, icon, ...rest }) => {
+const Input = ({
+  value,
+  value_eye,
+  onChangeText,
+  onPress,
+  name,
+  icon,
+  icon_eyes_open,
+  icon_eyes_opened,
+  icon_eyes_closed,
+  ...rest
+}) => {
   return (
-    <Container
-    // style={
-    //   !value ? { borderColor: 'red', borderWidth: 2, borderRadius: 10 } : {}
-    // }
-    >
+    <Container>
       <Icon name={icon} size={20} color="#fff" />
       <TextInput
         placeholderTextColor="#fff"
@@ -15,6 +22,13 @@ const Input = ({ value, onChangeText, name, icon, ...rest }) => {
         value={value}
         onChangeText={onChangeText}
       />
+      <Button onPress={onPress}>
+        <Icon
+          name={value_eye ? icon_eyes_opened : icon_eyes_closed}
+          size={20}
+          color="#fff"
+        />
+      </Button>
     </Container>
   );
 };

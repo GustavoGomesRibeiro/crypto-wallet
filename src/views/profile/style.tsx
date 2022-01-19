@@ -6,4 +6,3 @@ export const Container = styled.View`
   align-items: center;
 `;
 export const Text = styled.Text``;
-export const SignOut = styled.TouchableOpacity``;

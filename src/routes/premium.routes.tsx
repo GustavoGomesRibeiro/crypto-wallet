@@ -2,11 +2,13 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { RootParamsRouteList } from './rootParamsRouteList/ParamsRoutesList';
 
 import Home from '../views/home/index';
 import Wallet from '../views/wallet/index';
+import Profile from '../views/profile/index';
 
 const Stack = createStackNavigator<RootParamsRouteList>();
 const Tab = createBottomTabNavigator<RootParamsRouteList>();
@@ -55,6 +57,18 @@ const BottomNavigationInternal = () => (
         headerShown: false,
         tabBarIcon: ({ color, size }) => {
           return <Ionicons name="wallet" size={size} color={color} />;
+        },
+      }}
+    />
+    <Tab.Screen
+      name="Perfil"
+      component={Profile}
+      options={{
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => {
+          return (
+            <MaterialCommunityIcons name="account" size={size} color={color} />
+          );
         },
       }}
     />

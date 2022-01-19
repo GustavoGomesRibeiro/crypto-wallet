@@ -5,4 +5,5 @@ export type RootParamsRouteList = {
   Token: undefined;
   Home: undefined;
   Wallet: undefined;
+  Profile: undefined;
 };

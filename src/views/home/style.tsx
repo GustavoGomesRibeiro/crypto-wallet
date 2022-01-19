@@ -56,14 +56,15 @@ export const Main = styled.View`
   height: 300px;
 `;
 
-export const Investments = styled.View`
+export const Investments = styled.TouchableOpacity`
   width: 300px;
-  height: 200px;
   border-radius: 10px;
   background: #fff;
+  padding: 20px;
+`;
+export const ContentInvestiments = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  padding: 20px;
 `;
 
 export const Details = styled.View`
@@ -92,6 +93,27 @@ export const Patrimony = styled.Text`
   font-size: 16px;
 `;
 
-export const Text = styled.Text``;
+export const Assets = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+export const Crypto = styled.View``;
+export const Stock = styled.View``;
+export const Funds = styled.View``;
+
+export const LabelAssets = styled.Text`
+  margin-right: 10px;
+  font-size: 12px;
+  font-family: Poppins_400Regular;
+  color: #797979;
+  margin-top: 20px;
+`;
+
+export const TextAssets = styled.Text`
+  font-family: Poppins_400Regular;
+  color: #000;
+  font-size: 14px;
+`;
 
 export const Footer = styled.View``;

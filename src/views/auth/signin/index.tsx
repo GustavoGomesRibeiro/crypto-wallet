@@ -29,6 +29,7 @@ import {
 export default function Signin() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [visible, setVisible] = useState(true);
 
   type ReciveScreens = NativeStackNavigationProp<RootParamsRouteList, 'Signup'>;
   const navigation = useNavigation<ReciveScreens>();
@@ -40,6 +41,10 @@ export default function Signin() {
       password,
     });
   }
+
+  const enableVision = () => {
+    setVisible(event => !event);
+  };
 
   return (
     <Container>
@@ -62,9 +67,13 @@ export default function Signin() {
         <Input
           name="password"
           icon="lock"
+          icon_eyes_opened="eye"
+          icon_eyes_closed="eye-off"
           placeholder="Senha"
-          secureTextEntry={true}
+          secureTextEntry={!!visible}
+          onPress={enableVision}
           value={password}
+          value_eye={visible}
           onChangeText={setPassword}
         />
         <Button onPress={handleLogin}>Entrar</Button>

@@ -36,6 +36,7 @@ export default function Signup() {
   const [last_name, setLastname] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [visible, setVisible] = useState(true);
 
   type ReciveScreen = NativeStackNavigationProp<RootParamsRouteList, 'Signin'>;
   const navigation = useNavigation<ReciveScreen>();
@@ -66,6 +67,9 @@ export default function Signup() {
     }
   };
 
+  const enableVision = () => {
+    setVisible(event => !event);
+  };
   // const validateEmail = text => {
   //   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
@@ -152,7 +156,11 @@ export default function Signup() {
               placeholder="Senha"
               name="senha"
               icon="lock"
-              secureTextEntry={true}
+              icon_eyes_opened="eye"
+              icon_eyes_closed="eye-off"
+              value_eye={visible}
+              onPress={enableVision}
+              secureTextEntry={!!visible}
               value={password}
               onChangeText={setPassword}
             />
@@ -173,7 +181,11 @@ export default function Signup() {
               placeholder="Repita sua senha"
               name="senha"
               icon="lock"
-              secureTextEntry={true}
+              icon_eyes_opened="eye"
+              icon_eyes_closed="eye-off"
+              value_eye={visible}
+              onPress={enableVision}
+              secureTextEntry={!!visible}
               value={confirmPassword}
               onChangeText={setConfirmPassword}
             />
