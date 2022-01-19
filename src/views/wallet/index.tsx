@@ -1,8 +1,15 @@
-import React from 'react';
-import { Container, Text } from './style';
+import React, { useContext } from 'react';
+import { ContextApi } from '../../hooks/authContext';
+import { Container, Text, SignOut } from './style';
 
 export default function Wallet() {
-  <Container>
-    <Text> Wallet</Text>
-  </Container>;
+  const { signOut } = useContext(ContextApi);
+  return (
+    <Container>
+      <Text> Wallet</Text>
+      <SignOut onPress={signOut}>
+        <Text>Sair</Text>
+      </SignOut>
+    </Container>
+  );
 }

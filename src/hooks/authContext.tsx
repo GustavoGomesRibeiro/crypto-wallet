@@ -74,8 +74,6 @@ function AuthProvider({ children }) {
         api.defaults.headers.authorization = `Bearer ${token}`;
 
         setAuthenticated({ token, name, last_name, role });
-
-        navigation.navigate('Home');
       } catch (error) {
         Alert.alert(
           'Informações Inválidas',
