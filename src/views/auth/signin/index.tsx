@@ -57,6 +57,7 @@ export default function Signin() {
           autoCapitalize="none"
           value={email}
           onChangeText={setEmail}
+          keyboardType="email-address"
         />
         <Input
           name="password"

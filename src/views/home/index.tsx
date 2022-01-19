@@ -1,39 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useContext } from 'react';
+import { ContextApi } from '../../hooks/authContext';
 
-import { Container, Content, Header, Main, Text, Footer } from './style';
-
-interface User {
-  token: string;
-  name: string;
-}
+import {
+  Container,
+  Content,
+  Header,
+  Main,
+  SignOut,
+  Text,
+  Footer,
+} from './style';
 
 export default function Home() {
-  const [authenticated, setAuthenticated] = useState({});
-  // const [loading, setLoading] = useState(false);
+  const { signOut, name, token, last_name, role } = useContext(ContextApi);
 
-  useEffect(() => {
-    async function getDataUser() {
-      const [token, name] = await AsyncStorage.multiGet([
-        '@wallet:token',
-        '@wallet:name',
-      ]);
-      setAuthenticated({
-        token: token[1],
-        name: name[1],
-      });
-    }
-    // setLoading(false);
-    getDataUser();
-  }, []);
-
+  console.log({
+    name,
+    token,
+    last_name,
+    role,
+  });
   return (
     <Container>
       <Content>
         <Header></Header>
         <Main>
           <Text> Home </Text>
-          <Text> {authenticated.name} </Text>
+          <Text> {name} </Text>
+          <SignOut onPress={signOut}>
+            <Text>Sair</Text>
+          </SignOut>
         </Main>
         <Footer></Footer>
       </Content>

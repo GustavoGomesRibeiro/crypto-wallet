@@ -59,6 +59,19 @@ Notifications.setNotificationHandler({
   }),
 });
 
+Notifications.scheduleNotificationAsync({
+  content: {
+    sound: 'default',
+    title: 'Informações das criptomoedas 💰',
+    body: 'Você tem uma nova menssagem, pamonha',
+    // data: { data: allCryptos?.success },
+  },
+  trigger: {
+    seconds: 3600,
+    // repeats: true,
+  },
+});
+
 export default function Crypto() {
   const [allCryptos, getAllCryptos] = useState<Altcoins[]>([]);
   const [cryptoById, setcryptoById] = useState('');
@@ -129,18 +142,18 @@ export default function Crypto() {
   }
 
   // local: send notification
-  Notifications.scheduleNotificationAsync({
-    content: {
-      sound: 'default',
-      title: 'Informações das criptomoedas 💰',
-      body: 'Você tem uma nova menssagem',
-      data: { data: allCryptos?.success },
-    },
-    trigger: {
-      seconds: 3600,
-      repeats: true,
-    },
-  });
+  // Notifications.scheduleNotificationAsync({
+  //   content: {
+  //     sound: 'default',
+  //     title: 'Informações das criptomoedas 💰',
+  //     body: 'Você tem uma nova menssagem',
+  //     // data: { data: allCryptos?.success },
+  //   },
+  //   trigger: {
+  //     seconds: 3600,
+  //     // repeats: true,
+  //   },
+  // });
 
   async function handleCryptoFilter(cryptoById) {
     if (!cryptoById) {

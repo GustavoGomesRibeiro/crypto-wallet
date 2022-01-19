@@ -8,6 +8,9 @@ export const Container = styled.View`
 `;
 export const Content = styled.ScrollView``;
 export const Header = styled.View``;
-export const Main = styled.View``;
+export const Main = styled.View`
+  margin-top: 300px;
+`;
+export const SignOut = styled.TouchableOpacity``;
 export const Text = styled.Text``;
 export const Footer = styled.View``;
