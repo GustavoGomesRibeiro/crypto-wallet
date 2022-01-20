@@ -117,3 +117,47 @@ export const TextAssets = styled.Text`
 `;
 
 export const Footer = styled.View``;
+
+export const ContentTitle = styled.View`
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Title = styled.Text`
+  width: 300px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  font-family: Poppins_700Bold;
+  font-size: 16px;
+`;
+
+export const ContentActions = styled.View`
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Actions = styled.View`
+  width: 300px;
+  border-radius: 10px;
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 25px;
+`;
+
+export const AddTransaction = styled.TouchableOpacity``;
+
+export const LabelTransaction = styled.Text`
+  font-size: 14px;
+  font-family: Poppins_400Regular;
+  color: #000;
+  margin-top: 15px;
+`;
+
+export const LabelWallet = styled.Text`
+  font-size: 14px;
+  font-family: Poppins_400Regular;
+  color: #000;
+  margin-top: 15px;
+`;
+
+export const MyWallet = styled.TouchableOpacity``;

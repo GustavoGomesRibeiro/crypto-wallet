@@ -8,6 +8,8 @@ import { RootParamsRouteList } from './rootParamsRouteList/ParamsRoutesList';
 
 import Home from '../views/home/index';
 import Wallet from '../views/wallet';
+import ListWallet from '../views/wallet/partial/listWallet/index';
+import Transaction from '../views/transactions/index';
 import Profile from '../views/profile/index';
 
 const Stack = createStackNavigator<RootParamsRouteList>();
@@ -52,7 +54,7 @@ const BottomNavigationInternal = () => (
     />
     <Tab.Screen
       name="Carteiras"
-      component={Wallet}
+      component={ListWallet}
       options={{
         headerShown: false,
         tabBarIcon: ({ color, size }) => {
@@ -82,6 +84,21 @@ export default function BasicRouter() {
         name="Initial"
         component={BottomNavigationInternal}
         options={{ title: 'Home', headerShown: false }}
+      />
+      <Stack.Screen
+        name="ListWallet"
+        component={ListWallet}
+        options={{ title: 'Minhas Carteiras', headerShown: false }}
+      />
+      <Stack.Screen
+        name="Wallet"
+        component={Wallet}
+        options={{ title: 'Minhas Carteiras', headerShown: false }}
+      />
+      <Stack.Screen
+        name="Transaction"
+        component={Transaction}
+        options={{ title: 'Transaction', headerShown: false }}
       />
     </Stack.Navigator>
   );

@@ -15,15 +15,17 @@ export const Main = styled.View`
 
 export const Label = styled.View`
   flex-direction: row;
-  margin-top: 10px;
-  margin-left: 50px;
-  align-self: flex-start;
+  margin-top: 15px;
+  width: 300px;
+`;
+
+export const RequiredField = styled.Text`
+  font-family: Archivo_700Bold;
 `;
 
 export const LabelRequired = styled.View`
   flex-direction: row;
-  margin-left: 50px;
-  align-self: flex-start;
+  width: 300px;
 `;
 
 export const ContentRequired = styled.View`
@@ -38,10 +40,6 @@ export const RequiredText = styled.Text`
   font-family: Archivo_400Regular;
   font-size: 14px;
   margin-right: 5px;
-`;
-
-export const RequiredField = styled.Text`
-  font-family: Archivo_700Bold;
 `;
 
 export const Icon = styled.TouchableOpacity`
