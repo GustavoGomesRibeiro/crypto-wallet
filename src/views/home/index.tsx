@@ -130,7 +130,7 @@ export default function Home() {
         </Main>
         <Footer>
           <ContentTitle>
-            <Title> Ações</Title>
+            <Title> O que deseja fazer? </Title>
           </ContentTitle>
           <ContentActions>
             <Actions

@@ -1,8 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Fontisto from 'react-native-vector-icons/Fontisto';
+import { FontAwesome, Fontisto } from 'react-native-vector-icons';
 import { RootParamsRouteList } from './rootParamsRouteList/ParamsRoutesList';
 
 import Initial from '../views/initial/index';

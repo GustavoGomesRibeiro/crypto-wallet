@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Alert, KeyboardAvoidingView } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons } from 'react-native-vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 

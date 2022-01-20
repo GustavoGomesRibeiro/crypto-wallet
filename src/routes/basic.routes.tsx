@@ -1,15 +1,14 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Ionicons, MaterialCommunityIcons } from 'react-native-vector-icons';
 
 import { RootParamsRouteList } from './rootParamsRouteList/ParamsRoutesList';
 
 import Home from '../views/home/index';
 import Wallet from '../views/wallet';
 import ListWallet from '../views/wallet/partial/listWallet/index';
-import Transaction from '../views/transactions/index';
+import Transaction from '../views/wallet/partial/transactions/index';
 import Profile from '../views/profile/index';
 
 const Stack = createStackNavigator<RootParamsRouteList>();

@@ -82,9 +82,12 @@ export default function Crypto() {
   const responseListener = useRef();
 
   useEffect(() => {
-    api.get('/cryptos').then(response => {
-      getAllCryptos(response.data);
-    });
+    const interval = setInterval(() => {
+      api.get('/cryptos').then(response => {
+        getAllCryptos(response.data);
+      });
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -184,6 +187,7 @@ export default function Crypto() {
         onPress={() => handleCryptoFilter(cryptoById)}
         value={cryptoById}
         onChangeText={setcryptoById}
+        keyboardType="web-search"
       />
       <Main>
         <Label>

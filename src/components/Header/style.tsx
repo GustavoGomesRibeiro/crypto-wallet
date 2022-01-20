@@ -2,12 +2,12 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   background: #fff;
-  height: 100px;
+  height: 150px;
 `;
 export const ContentHeader = styled.View`
   justify-content: space-between;
   flex-direction: row;
-  margin-top: 60px;
+  margin-top: 80px;
   padding: 0px 30px;
 `;
 export const ContainerInput = styled.View`

@@ -1,6 +1,5 @@
 import React from 'react';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { MaterialIcons, FontAwesome } from 'react-native-vector-icons';
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
