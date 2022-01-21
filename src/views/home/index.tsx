@@ -1,8 +1,10 @@
 import React, { useState, useContext } from 'react';
 import Feather from 'react-native-vector-icons/Feather';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {
+  FontAwesome,
+  MaterialIcons,
+  Ionicons,
+} from 'react-native-vector-icons';
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';

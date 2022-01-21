@@ -1,7 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { Alert } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import RootParamsRouteList from '../../routes/rootParamsRouteList/ParamsRoutesList';
+
 import { ContextApi } from '../../../../hooks/authContext';
+
 import MenuHeader from '../../../../components/MenuHeader/index';
 import Input from '../../../../components/Input/index';
 import Button from '../../../../components/Button/index';
@@ -21,6 +26,9 @@ export default function CreateWallet() {
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
 
+  type ReciveScreens = NativeStackNavigationProp<RootParamsRouteList, 'Wallet'>;
+  const navigation = useNavigation<ReciveScreens>();
+
   const data = { name, description };
 
   const createWallet = async () => {
@@ -31,6 +39,11 @@ export default function CreateWallet() {
         const response = await api.post<Wallet>('/wallets', data, {
           headers: { Authorization: token },
         });
+        Alert.alert(
+          'Carteira criada com sucesso!',
+          'Sua carteira foi adicionada',
+        );
+        navigation.navigate('Wallet');
       } catch (error) {
         Alert.alert('Ops!', 'Alguma coisa deu errado.');
       }
