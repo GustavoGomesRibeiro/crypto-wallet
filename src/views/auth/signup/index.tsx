@@ -26,14 +26,14 @@ import {
 interface RegisterUser {
   email: string;
   name: string;
-  last_name: string;
+  lastName: string;
   password: string;
 }
 
 export default function Signup() {
   const [email, setEmail] = useState<string>('');
   const [name, setName] = useState<string>('');
-  const [last_name, setLastname] = useState<string>('');
+  const [lastName, setLastname] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [visible, setVisible] = useState(true);
@@ -42,7 +42,7 @@ export default function Signup() {
   const navigation = useNavigation<ReciveScreen>();
 
   const handleRegister = async () => {
-    if (!email || !name || !last_name || !password) {
+    if (!email || !name || !lastName || !password) {
       Alert.alert('Informações invalidas', 'Os campos não podem ficar vazios!');
     } else if (password !== confirmPassword) {
       Alert.alert('Ops!', 'As senhas estão diferentes');
@@ -51,11 +51,11 @@ export default function Signup() {
         const response = await api.post<RegisterUser>('/users', {
           email,
           name,
-          last_name,
+          lastName,
           password,
         });
 
-        Alert.alert('Cadastro realizado!');
+        Alert.alert('Cadastro realizado com sucesso!');
         navigation.navigate('Signin');
       } catch (error) {
         console.log(error);
@@ -136,11 +136,11 @@ export default function Signup() {
               placeholder="Sobrenome"
               name="sobrenome"
               icon="user"
-              value={last_name}
+              value={lastName}
               onChangeText={setLastname}
             />
             <LabelRequired>
-              {!last_name ? (
+              {!lastName ? (
                 <ContentRequired>
                   <RequiredText>Campo obrigatório</RequiredText>
                   <MaterialIcons name="error" size={20} color="#c42323" />

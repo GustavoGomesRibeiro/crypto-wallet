@@ -11,7 +11,7 @@ const ContextApi = createContext();
 interface AuthState {
   token: string;
   name: string;
-  last_name: string;
+  lastName: string;
   role: string;
 }
 
@@ -29,18 +29,18 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     async function loadStorageData(): Promise<void> {
-      const [token, name, last_name, role] = await AsyncStorage.multiGet([
+      const [token, name, lastName, role] = await AsyncStorage.multiGet([
         '@wallet:token',
         '@wallet:name',
-        '@wallet:last_name',
+        '@wallet:lastName',
         '@wallet:role',
       ]);
-      if (token[1] && name[1] && last_name[1] && role[1]) {
+      if (token[1] && name[1] && lastName[1] && role[1]) {
         api.defaults.headers.authorization = `Bearer ${token[1]}`;
         setAuthenticated({
           token: token[1],
           name: JSON.parse(name[1]),
-          last_name: JSON.parse(last_name[1]),
+          lastName: JSON.parse(lastName[1]),
           role: role[1],
         });
       }
@@ -60,12 +60,12 @@ function AuthProvider({ children }) {
         });
 
         const { token } = response.data;
-        const { name, last_name, role } = response.data.userExists;
+        const { name, lastName, role } = response.data.user;
 
         const key = [
           ['@wallet:token', token],
           ['@wallet:name', JSON.stringify(name)],
-          ['@wallet:last_name', JSON.stringify(last_name)],
+          ['@wallet:lastName', JSON.stringify(lastName)],
           ['@wallet:role', role],
         ];
 
@@ -73,7 +73,7 @@ function AuthProvider({ children }) {
 
         api.defaults.headers.authorization = `Bearer ${token}`;
 
-        setAuthenticated({ token, name, last_name, role });
+        setAuthenticated({ token, name, lastName, role });
       } catch (error) {
         Alert.alert(
           'Informações Inválidas',
@@ -94,7 +94,7 @@ function AuthProvider({ children }) {
       value={{
         token: authenticated?.token,
         name: authenticated.name,
-        last_name: authenticated.last_name,
+        lastName: authenticated.lastName,
         role: authenticated.role,
         signIn,
         signOut,

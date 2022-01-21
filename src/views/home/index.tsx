@@ -48,15 +48,18 @@ import {
 
 export default function Home() {
   const [visible, setVisible] = useState(true);
-  const { signOut, name, token, last_name, role } = useContext(ContextApi);
+  const { signOut, name, token, lastName, role } = useContext(ContextApi);
 
-  type ReceiveScreen = NativeStackNavigationProp<RootParamsRouteList, 'Wallet'>;
+  type ReceiveScreen = NativeStackNavigationProp<
+    RootParamsRouteList,
+    'CreateWallet'
+  >;
   const navigation = useNavigation<ReceiveScreen>();
 
   // console.log({
   //   name,
   //   token,
-  //   last_name,
+  //   lastName,
   //   role,
   // });
 
@@ -169,7 +172,7 @@ export default function Home() {
                 elevation: 5,
               }}
             >
-              <MyWallet onPress={() => navigation.navigate('Wallet')}>
+              <MyWallet onPress={() => navigation.navigate('CreateWallet')}>
                 <Ionicons name="wallet" size={20} color="#000" />
                 <LabelWallet>Criar uma carteira</LabelWallet>
                 <Label>

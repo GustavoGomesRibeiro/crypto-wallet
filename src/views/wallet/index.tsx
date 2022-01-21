@@ -7,7 +7,7 @@ export default function Wallet() {
   const { signOut } = useContext(ContextApi);
   return (
     <Container>
-      <MenuHeader title="Carteiras criadas" />
+      <MenuHeader title="Minhas Carteiras" />
       <Text> Wallet</Text>
       <SignOut onPress={signOut}>
         <Text>Sair</Text>

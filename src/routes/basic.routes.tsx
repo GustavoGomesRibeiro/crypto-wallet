@@ -7,7 +7,7 @@ import { RootParamsRouteList } from './rootParamsRouteList/ParamsRoutesList';
 
 import Home from '../views/home/index';
 import Wallet from '../views/wallet';
-import ListWallet from '../views/wallet/partial/listWallet/index';
+import CreateWallet from '../views/wallet/partial/createWallet/index';
 import Transaction from '../views/wallet/partial/transactions/index';
 import Profile from '../views/profile/index';
 
@@ -53,7 +53,7 @@ const BottomNavigationInternal = () => (
     />
     <Tab.Screen
       name="Carteiras"
-      component={ListWallet}
+      component={Wallet}
       options={{
         headerShown: false,
         tabBarIcon: ({ color, size }) => {
@@ -85,8 +85,8 @@ export default function BasicRouter() {
         options={{ title: 'Home', headerShown: false }}
       />
       <Stack.Screen
-        name="ListWallet"
-        component={ListWallet}
+        name="CreateWallet"
+        component={CreateWallet}
         options={{ title: 'Minhas Carteiras', headerShown: false }}
       />
       <Stack.Screen
