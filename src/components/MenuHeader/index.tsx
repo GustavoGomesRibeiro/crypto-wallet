@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import { AntDesign, Feather } from 'react-native-vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { Header, Text, View } from './style';
+import { Header, Text } from './style';
 
-export default function MenuHeader({ title, ...rest }) {
+export default function MenuHeader({ title, icon, onPress, ...rest }) {
   const navigation = useNavigation();
 
   return (
@@ -14,8 +14,8 @@ export default function MenuHeader({ title, ...rest }) {
       </BorderlessButton>
 
       <Text> {title} </Text>
-      <BorderlessButton>
-        <Feather name="x" size={24} color="#fff" />
+      <BorderlessButton onPress={onPress}>
+        <Feather name={icon} size={24} color="#000" />
       </BorderlessButton>
     </Header>
   );

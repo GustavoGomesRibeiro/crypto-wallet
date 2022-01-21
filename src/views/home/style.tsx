@@ -98,7 +98,9 @@ export const Assets = styled.View`
 `;
 
 export const Crypto = styled.View``;
+
 export const Stock = styled.View``;
+
 export const Funds = styled.View``;
 
 export const LabelAssets = styled.Text`

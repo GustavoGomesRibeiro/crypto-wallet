@@ -10,7 +10,10 @@ export const Container = styled.View``;
 
 export const Text = styled.Text``;
 
-export const Main = styled.ScrollView``;
+export const Main = styled.ScrollView`
+  /* margin: 20px 0px; */
+  margin-bottom: 150px;
+`;
 
 export const Filtered = styled.TouchableOpacity``;
 

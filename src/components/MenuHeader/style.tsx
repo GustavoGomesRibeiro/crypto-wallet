@@ -11,7 +11,6 @@ export const Header = styled.View`
   align-items: center;
   height: 150px;
 `;
-export const View = styled.View``;
 
 export const Text = styled.Text`
   font-family: 'Poppins_400Regular';
