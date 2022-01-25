@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Ionicons } from 'react-native-vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ReceiveScreen } from '../../utils/navigationRoutes';
 import { ContextApi } from '../../hooks/authContext';
-import RootParamsRouteList from '../../routes/rootParamsRouteList/ParamsRoutesList';
 import MenuHeader from '../../components/MenuHeader/index';
 import api from '../../services/api';
 
@@ -35,13 +34,9 @@ interface Wallet {
 
 export default function Wallet() {
   const { token } = useContext(ContextApi);
-  const [wallets, setWallets] = useState<Wallet[]>([]);
-
-  type ReceiveScreen = NativeStackNavigationProp<
-    RootParamsRouteList,
-    'Transaction'
-  >;
   const navigation = useNavigation<ReceiveScreen>();
+
+  const [wallets, setWallets] = useState<Wallet[]>([]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -82,7 +77,7 @@ export default function Wallet() {
           {wallets.map(wallet => {
             return (
               <WalletContent
-                onPress={() => navigation.navigate('Transaction')}
+                onPress={() => navigation.navigate('ListTransactions')}
                 style={{
                   shadowColor: '#000',
                   shadowOffset: {

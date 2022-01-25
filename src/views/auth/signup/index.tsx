@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { Alert, KeyboardAvoidingView } from 'react-native';
 import { MaterialIcons } from 'react-native-vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-
-import RootParamsRouteList from '../../../routes/rootParamsRouteList/ParamsRoutesList';
+import { ReceiveScreen } from '../../../utils/navigationRoutes';
 import api from '../../../services/api';
 import Input from '../../../components/Input/index';
 import Button from '../../../components/Button/index';
@@ -31,15 +29,14 @@ interface RegisterUser {
 }
 
 export default function Signup() {
+  const navigation = useNavigation<ReceiveScreen>();
+
   const [email, setEmail] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [lastName, setLastname] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [visible, setVisible] = useState(true);
-
-  type ReciveScreen = NativeStackNavigationProp<RootParamsRouteList, 'Signin'>;
-  const navigation = useNavigation<ReciveScreen>();
 
   const handleRegister = async () => {
     if (!email || !name || !lastName || !password) {
@@ -70,15 +67,18 @@ export default function Signup() {
   const enableVision = () => {
     setVisible(event => !event);
   };
-  // const validateEmail = text => {
-  //   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
+  // const validateEmail = text => {
+  //   console.log(text);
+  //   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
   //   if (reg.test(text) === false) {
-  //     setEmail({ text });
+  //     console.log('Email is Not Correct');
+  //     setEmail({ email: text });
   //     return false;
   //   }
-  //   setEmail({ text });
+  //   setEmail({ email: text });
   //   console.log('Email is Correct');
+  //   console.log(reg.test(text), 'return');
   // };
 
   return (

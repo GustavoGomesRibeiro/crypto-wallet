@@ -9,6 +9,7 @@ import Home from '../views/home/index';
 import Wallet from '../views/wallet/index';
 import CreateWallet from '../views/wallet/partial/createWallet/index';
 import Transaction from '../views/wallet/partial/transactions/index';
+import ListTransactions from '../views/wallet/partial/listTransactions/index';
 import Profile from '../views/profile/index';
 
 const Stack = createStackNavigator<RootParamsRouteList>();
@@ -98,6 +99,11 @@ export default function PremiumRouter() {
         name="Transaction"
         component={Transaction}
         options={{ title: 'Transaction', headerShown: false }}
+      />
+      <Stack.Screen
+        name="ListTransactions"
+        component={ListTransactions}
+        options={{ title: 'ListTransactions', headerShown: false }}
       />
     </Stack.Navigator>
   );

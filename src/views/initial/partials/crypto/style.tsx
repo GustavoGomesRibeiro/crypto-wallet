@@ -6,7 +6,7 @@ export const Loading = styled.View`
   align-items: center;
 `;
 
-export const Container = styled.View``;
+export const Container = styled.SafeAreaView``;
 
 export const Text = styled.Text``;
 

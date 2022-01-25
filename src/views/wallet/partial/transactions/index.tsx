@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { ReceiveScreen } from '../../../../utils/navigationRoutes';
 import MenuHeader from '../../../../components/MenuHeader/index';
 import Input from '../../../../components/Input/index';
 import Button from '../../../../components/Button/index';
 import api from '../../../../services/api';
 import { ContextApi } from '../../../../hooks/authContext';
+import { maskCurrency } from '../../../../utils/masks';
+
 import {
   Container,
   Content,
@@ -20,7 +24,7 @@ interface Wallets {
   abbreviation: string;
   quantity: number;
   price: string;
-  fee: string;
+  fee?: string;
   typeId: number;
   walletId: number;
 }
@@ -28,14 +32,16 @@ interface Wallets {
 export default function Transaction() {
   const { token } = useContext(ContextApi);
 
+  const navigation = useNavigation<ReceiveScreen>();
+
   const [wallets, setWallets] = useState<Wallets[]>([]);
   const [name, setName] = useState('');
   const [abbreviation, setAbbreviation] = useState('');
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
   const [fees, setFees] = useState('');
-  const [selectWallet, setSelectWallet] = useState('');
-  const [types, setTypes] = useState('');
+  const [walletId, setWalletId] = useState('');
+  const [typeId, setTypeId] = useState('');
 
   useEffect(() => {
     api
@@ -48,39 +54,39 @@ export default function Transaction() {
   const data = {
     name,
     abbreviation,
-    quantity,
-    price,
-    fees,
-    types,
-    selectWallet,
+    quantity: parseFloat(quantity),
+    price: price.replace(/\D/g, ''),
+    fees: fees.replace(/\D/g, ''),
+    typeId: parseInt(typeId),
+    walletId,
   };
 
   const registerTransaction = async () => {
-    if (
-      !name ||
-      !abbreviation ||
-      !quantity ||
-      !price ||
-      !types ||
-      !selectWallet
-    ) {
+    if (!name || !abbreviation || !quantity || !price || !typeId || !walletId) {
       Alert.alert('Informações invalidas', 'Os campos não podem ficar vazios!');
     } else {
       try {
         const response = await api.post('/cryptos', data, {
           headers: { Authorization: token },
         });
+        Alert.alert(
+          'Transação criada',
+          'Sua transação foi criado com sucesso!',
+        );
+        navigation.navigate('Wallet');
       } catch (error) {
         Alert.alert('Ops!', 'Verifique os campos preenchidos.');
       }
     }
   };
 
-  function maskCurrency(value) {
-    value = value.replace(/\D/g, '');
-    value = value.replace(/(\d)(\d{2})$/, '$1,$2');
-    value = value.replace(/(?=(\d{3})+(\D))\B/g, '.');
-    setPrice(value);
+  function priceFormatted(text) {
+    const value = maskCurrency(text);
+    setPrice(`R$${value}`);
+  }
+  function feesFormatted(text) {
+    const value = maskCurrency(text);
+    setFees(`R$${value}`);
   }
 
   return (
@@ -111,14 +117,14 @@ export default function Transaction() {
             <Label>Preço</Label>
             <Input
               value={price}
-              onChangeText={maskCurrency}
+              onChangeText={priceFormatted}
               keyboardType="numeric"
               placeholder="ex. R$0.00"
             />
             <Label>Taxas</Label>
             <Input
               value={fees}
-              onChangeText={setFees}
+              onChangeText={feesFormatted}
               placeholder="ex. R$0.00"
               keyboardType="numeric"
             />
@@ -127,8 +133,8 @@ export default function Transaction() {
           <PickerContainer>
             <Label>Investimentos</Label>
             <Picker
-              selectedValue={types}
-              onValueChange={setTypes}
+              selectedValue={typeId}
+              onValueChange={setTypeId}
               style={{ width: 300 }}
             >
               <Picker.Item label="Escolha o tipo de investimento" value="" />
@@ -141,8 +147,8 @@ export default function Transaction() {
           <PickerContainer>
             <Label>Carteiras</Label>
             <Picker
-              selectedValue={selectWallet}
-              onValueChange={setSelectWallet}
+              selectedValue={walletId}
+              onValueChange={setWalletId}
               style={{ width: 300 }}
             >
               {wallets.map(wallet => {

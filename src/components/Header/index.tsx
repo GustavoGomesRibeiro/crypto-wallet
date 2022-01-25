@@ -2,8 +2,7 @@ import React from 'react';
 import { MaterialIcons, FontAwesome } from 'react-native-vector-icons';
 
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import RootParamsRouteList from '../../routes/rootParamsRouteList/ParamsRoutesList';
+import { ReceiveScreen } from '../../utils/navigationRoutes';
 
 import {
   Container,
@@ -16,8 +15,7 @@ import {
 } from './style';
 
 const Header = ({ value, onChangeText, onPress, ...rest }) => {
-  type ReciveScreens = NativeStackNavigationProp<RootParamsRouteList, 'Signin'>;
-  const navigation = useNavigation<ReciveScreens>();
+  const navigation = useNavigation<ReceiveScreen>();
 
   return (
     <Container>

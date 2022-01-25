@@ -7,8 +7,7 @@ import {
 } from 'react-native-vector-icons';
 
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import RootParamsRouteList from '../../routes/rootParamsRouteList/ParamsRoutesList';
+import { ReceiveScreen } from '../../utils/navigationRoutes';
 
 import { ContextApi } from '../../hooks/authContext';
 
@@ -49,14 +48,10 @@ import {
 } from './style';
 
 export default function Home() {
-  const [visible, setVisible] = useState(true);
   const { signOut, name, token, lastName, role } = useContext(ContextApi);
-
-  type ReceiveScreen = NativeStackNavigationProp<
-    RootParamsRouteList,
-    'CreateWallet'
-  >;
   const navigation = useNavigation<ReceiveScreen>();
+
+  const [visible, setVisible] = useState(true);
 
   // console.log({
   //   name,

@@ -2,11 +2,14 @@ import React, { useState, useContext } from 'react';
 import { Alert } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import RootParamsRouteList from '../../routes/rootParamsRouteList/ParamsRoutesList';
+import { ReceiveScreen } from '../../../../utils/navigationRoutes';
 
 import { ContextApi } from '../../../../hooks/authContext';
 
+import {
+  AlertToastSuccess,
+  AlertToastError,
+} from '../../../../components/Toast/index';
 import MenuHeader from '../../../../components/MenuHeader/index';
 import Input from '../../../../components/Input/index';
 import Button from '../../../../components/Button/index';
@@ -22,12 +25,11 @@ interface Wallet {
 
 export default function CreateWallet() {
   const { token } = useContext(ContextApi);
+  const navigation = useNavigation<ReceiveScreen>();
 
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-
-  type ReciveScreens = NativeStackNavigationProp<RootParamsRouteList, 'Wallet'>;
-  const navigation = useNavigation<ReciveScreens>();
+  const [toast, setToast] = useState(false);
 
   const data = { name, description };
 
@@ -39,11 +41,14 @@ export default function CreateWallet() {
         const response = await api.post<Wallet>('/wallets', data, {
           headers: { Authorization: token },
         });
-        Alert.alert(
-          'Carteira criada com sucesso!',
-          'Sua carteira foi adicionada',
-        );
-        navigation.navigate('Wallet');
+
+        if (response.status === 200) {
+          setToast(!toast);
+        }
+
+        setTimeout(() => {
+          navigation.navigate('Wallet');
+        }, 2000);
       } catch (error) {
         Alert.alert('Ops!', 'Alguma coisa deu errado.');
       }
@@ -54,10 +59,22 @@ export default function CreateWallet() {
     <Container>
       <MenuHeader title="Criar Carteira" />
       <Main>
+        {toast ? (
+          <AlertToastSuccess name="check" icon="checkmark-circle-outline">
+            Carteira cadastrada
+          </AlertToastSuccess>
+        ) : (
+          <></>
+        )}
+
         <Label>
           <LabelWallet>Nome da carteira</LabelWallet>
         </Label>
-        <Input value={name} onChangeText={setName} placeholder="Nome" />
+        <Input
+          value={name}
+          onChangeText={setName}
+          placeholder="ex. Criptmoedas"
+        />
 
         <Label>
           <LabelWallet>Descrição da carteira</LabelWallet>
@@ -65,7 +82,7 @@ export default function CreateWallet() {
         <Input
           value={description}
           onChangeText={setDescription}
-          placeholder="Descrição"
+          placeholder="ex. Carteira de criptomoedas"
         />
 
         <Register>

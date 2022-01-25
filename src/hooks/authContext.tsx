@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback, createContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import RootParamsRouteList from '../routes/rootParamsRouteList/ParamsRoutesList';
+import { ReceiveScreen } from '../utils/navigationRoutes';
 import api from '../services/api';
 
 const ContextApi = createContext();
@@ -21,11 +20,7 @@ function AuthProvider({ children }) {
   );
   const [loading, setLoading] = useState(true);
 
-  type ReciveScreens = NativeStackNavigationProp<
-    RootParamsRouteList,
-    'Initial'
-  >;
-  const navigation = useNavigation<ReciveScreens>();
+  const navigation = useNavigation<ReceiveScreen>();
 
   useEffect(() => {
     async function loadStorageData(): Promise<void> {

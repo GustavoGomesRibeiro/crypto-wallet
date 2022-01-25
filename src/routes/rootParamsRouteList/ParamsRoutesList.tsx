@@ -7,5 +7,6 @@ export type RootParamsRouteList = {
   Wallet: undefined;
   CreateWallet: undefined;
   Transaction: undefined;
+  ListTransactions: undefined;
   Profile: undefined;
 };

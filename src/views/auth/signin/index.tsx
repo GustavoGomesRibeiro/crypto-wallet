@@ -3,8 +3,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import RootParamsRouteList from '../../../routes/rootParamsRouteList/ParamsRoutesList';
+import { ReceiveScreen } from '../../../utils/navigationRoutes';
 import { ContextApi } from '../../../hooks/authContext';
 
 import Button from '../../../components/Button/index';
@@ -27,13 +26,12 @@ import {
 } from './style';
 
 export default function Signin() {
+  const { signIn } = useContext(ContextApi);
+  const navigation = useNavigation<ReceiveScreen>();
+
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [visible, setVisible] = useState(true);
-
-  type ReciveScreens = NativeStackNavigationProp<RootParamsRouteList, 'Signup'>;
-  const navigation = useNavigation<ReciveScreens>();
-  const { signIn } = useContext(ContextApi);
 
   function handleLogin() {
     signIn({

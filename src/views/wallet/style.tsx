@@ -8,7 +8,7 @@ export const Loading = styled.View`
 
 export const Text = styled.Text``;
 
-export const Container = styled.View`
+export const Container = styled.SafeAreaView`
   flex: 1;
 `;
 
