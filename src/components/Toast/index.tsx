@@ -23,6 +23,7 @@ const AlertToastSuccess = ({ children, name, icon }) => {
   return (
     <Success
       style={{
+        marginTop: 50,
         opacity,
         shadowColor: '#000',
         shadowOffset: {
@@ -37,7 +38,7 @@ const AlertToastSuccess = ({ children, name, icon }) => {
           {
             translateY: opacity.interpolate({
               inputRange: [0, 1],
-              outputRange: [-20, 0],
+              outputRange: [0, -20],
             }),
           },
         ],
@@ -67,9 +68,11 @@ const AlertToastError = ({ children, name, icon }) => {
       }),
     ]).start();
   }, []);
+
   return (
     <Error
       style={{
+        marginTop: 50,
         opacity,
         shadowColor: '#000',
         shadowOffset: {
@@ -84,7 +87,7 @@ const AlertToastError = ({ children, name, icon }) => {
           {
             translateY: opacity.interpolate({
               inputRange: [0, 1],
-              outputRange: [-20, 0],
+              outputRange: [0, -20],
             }),
           },
         ],

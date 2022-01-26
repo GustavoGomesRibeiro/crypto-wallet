@@ -1,85 +1,84 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
+import * as Yup from 'yup';
+
 import { Alert, KeyboardAvoidingView } from 'react-native';
 import { MaterialIcons } from 'react-native-vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { ReceiveScreen } from '../../../utils/navigationRoutes';
+
 import api from '../../../services/api';
 import Input from '../../../components/Input/index';
 import Button from '../../../components/Button/index';
 
-import {
-  Container,
-  Content,
-  Header,
-  Main,
-  Label,
-  LabelRequired,
-  ContentRequired,
-  RequiredField,
-  RequiredText,
-  Text,
-  Icon,
-} from './style';
-
-interface RegisterUser {
-  email: string;
-  name: string;
-  lastName: string;
-  password: string;
-}
+import { RegisterUser } from '../interfaces/index';
+import { Container, Content, Main, Label, RequiredField } from './style';
 
 export default function Signup() {
+  const formRef = useRef<FormHandles>();
+  const emailInputRef = useRef<TextInput>(null);
+  const nameInputRef = useRef<TextInput>(null);
+  const lastNameInputRef = useRef<TextInput>(null);
+  const passwordInputRef = useRef<TextInput>(null);
+  const confirmPasswordInputRef = useRef<TextInput>(null);
+
   const navigation = useNavigation<ReceiveScreen>();
 
-  const [email, setEmail] = useState<string>('');
-  const [name, setName] = useState<string>('');
-  const [lastName, setLastname] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [visible, setVisible] = useState(true);
 
-  const handleRegister = async () => {
-    if (!email || !name || !lastName || !password) {
-      Alert.alert('Informações invalidas', 'Os campos não podem ficar vazios!');
-    } else if (password !== confirmPassword) {
-      Alert.alert('Ops!', 'As senhas estão diferentes');
+  const handleRegister = useCallback(async (data: RegisterUser) => {
+    console.log(data);
+    if (data.password !== data.confirmPassword) {
+      Alert.alert('Valide sua senha!', 'Senhas divergentes!');
     } else {
       try {
-        const response = await api.post<RegisterUser>('/users', {
-          email,
-          name,
-          lastName,
-          password,
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Digite um e-mail válido'),
+          name: Yup.string().required('Nome obrigatório'),
+          lastName: Yup.string().required('Nome obrigatório'),
+          password: Yup.string().min(
+            6,
+            'Digite uma senha de no mínimo 6 dígitos',
+          ),
+          confirmPassword: Yup.string().min(6, 'Repita sua senha'),
         });
 
-        Alert.alert('Cadastro realizado com sucesso!');
-        navigation.navigate('Signin');
-      } catch (error) {
-        console.log(error);
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        await api.post('/users', data);
+
         Alert.alert(
-          'Erro ao registrar',
-          'Ops algo deu errado. Tente novamente!',
+          'Cadastro realizado com sucesso!',
+          'Você já pode fazer logon na aplicação',
+        );
+
+        navigation.navigate('Signin');
+      } catch (err) {
+        const validationErrors = {};
+        if (err instanceof Yup.ValidationError) {
+          err.inner.forEach(error => {
+            validationErrors[error.path] = error.message;
+          });
+          formRef.current.setErrors(validationErrors);
+        }
+
+        Alert.alert(
+          'Erro no cadastro',
+          'Ocorreu um erro ao fazer cadastro, tente novamente.',
         );
       }
     }
-  };
+  }, []);
 
   const enableVision = () => {
     setVisible(event => !event);
   };
-
-  // const validateEmail = text => {
-  //   console.log(text);
-  //   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-  //   if (reg.test(text) === false) {
-  //     console.log('Email is Not Correct');
-  //     setEmail({ email: text });
-  //     return false;
-  //   }
-  //   setEmail({ email: text });
-  //   console.log('Email is Correct');
-  //   console.log(reg.test(text), 'return');
-  // };
 
   return (
     <Container>
@@ -88,118 +87,95 @@ export default function Signup() {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
           <Main>
-            <Label>
-              <RequiredField>Email</RequiredField>
-            </Label>
-            <Input
-              placeholder="Email"
-              name="email"
-              icon="mail"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-            />
-            <LabelRequired>
-              {!email ? (
-                <ContentRequired>
-                  <RequiredText>Campo obrigatório</RequiredText>
-                  <MaterialIcons name="error" size={20} color="#c42323" />
-                </ContentRequired>
-              ) : (
-                <></>
-              )}
-            </LabelRequired>
-            <Label>
-              <RequiredField>Nome</RequiredField>
-            </Label>
-            <Input
-              placeholder="Nome"
-              name="nome"
-              icon="user"
-              value={name}
-              onChangeText={setName}
-            />
-            <LabelRequired>
-              {!name ? (
-                <ContentRequired>
-                  <RequiredText>Campo obrigatório</RequiredText>
-                  <MaterialIcons name="error" size={20} color="#c42323" />
-                </ContentRequired>
-              ) : (
-                <></>
-              )}
-            </LabelRequired>
-            <Label>
-              <RequiredField>Sobrenome</RequiredField>
-            </Label>
-            <Input
-              placeholder="Sobrenome"
-              name="sobrenome"
-              icon="user"
-              value={lastName}
-              onChangeText={setLastname}
-            />
-            <LabelRequired>
-              {!lastName ? (
-                <ContentRequired>
-                  <RequiredText>Campo obrigatório</RequiredText>
-                  <MaterialIcons name="error" size={20} color="#c42323" />
-                </ContentRequired>
-              ) : (
-                <></>
-              )}
-            </LabelRequired>
-            <Label>
-              <RequiredField>Senha</RequiredField>
-            </Label>
-            <Input
-              placeholder="Senha"
-              name="senha"
-              icon="lock"
-              icon_eyes_opened="eye"
-              icon_eyes_closed="eye-off"
-              value_eye={visible}
-              onPress={enableVision}
-              secureTextEntry={!!visible}
-              value={password}
-              onChangeText={setPassword}
-            />
-            <LabelRequired>
-              {!password ? (
-                <ContentRequired>
-                  <RequiredText>Campo obrigatório</RequiredText>
-                  <MaterialIcons name="error" size={20} color="#c42323" />
-                </ContentRequired>
-              ) : (
-                <></>
-              )}
-            </LabelRequired>
-            <Label>
-              <RequiredField>Repita sua senha</RequiredField>
-            </Label>
-            <Input
-              placeholder="Repita sua senha"
-              name="senha"
-              icon="lock"
-              icon_eyes_opened="eye"
-              icon_eyes_closed="eye-off"
-              value_eye={visible}
-              onPress={enableVision}
-              secureTextEntry={!!visible}
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-            />
-            <LabelRequired style={{ marginBottom: 15 }}>
-              {!confirmPassword ? (
-                <ContentRequired>
-                  <RequiredText>Campo obrigatório</RequiredText>
-                  <MaterialIcons name="error" size={20} color="#c42323" />
-                </ContentRequired>
-              ) : (
-                <></>
-              )}
-            </LabelRequired>
-            <Button onPress={handleRegister}> Cadastrar </Button>
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            >
+              <Form ref={formRef} onSubmit={handleRegister}>
+                <Label>
+                  <RequiredField>Email</RequiredField>
+                </Label>
+                <Input
+                  ref={emailInputRef}
+                  placeholder="Email"
+                  autoCapitalize="none"
+                  name="email"
+                  icon="mail"
+                  keyboardType="email-address"
+                  returnKeyType="next"
+                  onSubmitEditing={() => {
+                    nameInputRef.current?.focus();
+                  }}
+                />
+                <Label>
+                  <RequiredField>Nome</RequiredField>
+                </Label>
+                <Input
+                  ref={nameInputRef}
+                  placeholder="Nome"
+                  name="name"
+                  icon="user"
+                  returnKeyType="next"
+                  onSubmitEditing={() => {
+                    lastNameInputRef.current?.focus();
+                  }}
+                />
+                <Label>
+                  <RequiredField>Sobrenome</RequiredField>
+                </Label>
+                <Input
+                  ref={lastNameInputRef}
+                  placeholder="Sobrenome"
+                  name="lastName"
+                  icon="user"
+                  returnKeyType="next"
+                  onSubmitEditing={() => {
+                    passwordInputRef.current?.focus();
+                  }}
+                />
+                <Label>
+                  <RequiredField>Senha</RequiredField>
+                </Label>
+                <Input
+                  ref={passwordInputRef}
+                  placeholder="Senha"
+                  name="password"
+                  icon="lock"
+                  icon_eyes_opened="eye"
+                  icon_eyes_closed="eye-off"
+                  value_eye={visible}
+                  onPress={enableVision}
+                  secureTextEntry={!!visible}
+                  returnKeyType="next"
+                  onSubmitEditing={() => {
+                    confirmPasswordInputRef.current?.focus();
+                  }}
+                />
+                <Label>
+                  <RequiredField>Repita sua senha</RequiredField>
+                </Label>
+                <Input
+                  placeholder="Repita sua senha"
+                  name="confirmPassword"
+                  icon="lock"
+                  icon_eyes_opened="eye"
+                  icon_eyes_closed="eye-off"
+                  value_eye={visible}
+                  onPress={enableVision}
+                  secureTextEntry={!!visible}
+                  returnKeyType="send"
+                  onSubmitEditing={() => {
+                    formRef.current?.submitForm();
+                  }}
+                />
+                <Button
+                  onPress={() => {
+                    formRef.current?.submitForm();
+                  }}
+                >
+                  Cadastrar
+                </Button>
+              </Form>
+            </KeyboardAvoidingView>
           </Main>
         </KeyboardAvoidingView>
       </Content>

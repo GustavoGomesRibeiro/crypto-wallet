@@ -45,37 +45,37 @@ function AuthProvider({ children }) {
   }, []);
 
   const signIn = useCallback(async ({ email, password }) => {
-    if (!email || !password) {
-      Alert.alert('Informações invalidas', 'Os campos não podem ficar vazios!');
-    } else {
-      try {
-        const response = await api.post('/login', {
-          email,
-          password,
-        });
+    // if (!email || !password) {
+    //   Alert.alert('Informações invalidas', 'Os campos não podem ficar vazios!');
+    // } else {
+    // try {
+    const response = await api.post('/login', {
+      email,
+      password,
+    });
 
-        const { token } = response.data;
-        const { name, lastName, role } = response.data.user;
+    const { token } = response.data;
+    const { name, lastName, role } = response.data.user;
 
-        const key = [
-          ['@wallet:token', token],
-          ['@wallet:name', JSON.stringify(name)],
-          ['@wallet:lastName', JSON.stringify(lastName)],
-          ['@wallet:role', role],
-        ];
+    const key = [
+      ['@wallet:token', token],
+      ['@wallet:name', JSON.stringify(name)],
+      ['@wallet:lastName', JSON.stringify(lastName)],
+      ['@wallet:role', role],
+    ];
 
-        await AsyncStorage.multiSet(key);
+    await AsyncStorage.multiSet(key);
 
-        api.defaults.headers.authorization = `Bearer ${token}`;
+    api.defaults.headers.authorization = `Bearer ${token}`;
 
-        setAuthenticated({ token, name, lastName, role });
-      } catch (error) {
-        Alert.alert(
-          'Informações Inválidas',
-          'Ops! Usuário ou senha estão incorretos!',
-        );
-      }
-    }
+    setAuthenticated({ token, name, lastName, role });
+    //   } catch (error) {
+    //     Alert.alert(
+    //       'Informações Inválidas',
+    //       'Ops! Usuário ou senha estão incorretos!',
+    //     );
+    //   }
+    // }
   }, []);
 
   const signOut = useCallback(async () => {

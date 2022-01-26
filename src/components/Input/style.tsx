@@ -18,6 +18,18 @@ export const TextInput = styled.TextInput`
   font-size: 16px;
 `;
 
+export const ContentRequired = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const Error = styled.Text`
+  color: #c42323;
+  font-family: Archivo_400Regular;
+  font-size: 14px;
+  margin-right: 5px;
+`;
+
 export const Button = styled.TouchableOpacity``;
 export const Icon = styled(FeatherIcon)`
   margin-right: 16px;

@@ -1,13 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef, useCallback } from 'react';
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
+import * as Yup from 'yup';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useNavigation } from '@react-navigation/native';
+import { Alert, KeyboardAvoidingView } from 'react-native';
+import getValidationErrors from '../../../utils/getValidationErrors';
 import { ReceiveScreen } from '../../../utils/navigationRoutes';
 import { ContextApi } from '../../../hooks/authContext';
 
 import Button from '../../../components/Button/index';
 import Input from '../../../components/Input/index';
+
+import { SigInFormData } from '../interfaces/index';
 
 import {
   Container,
@@ -26,19 +33,46 @@ import {
 } from './style';
 
 export default function Signin() {
+  const formRef = useRef<FormHandles>(null);
+  const passwordInputRef = useRef<TextInput>(null);
   const { signIn } = useContext(ContextApi);
   const navigation = useNavigation<ReceiveScreen>();
 
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
   const [visible, setVisible] = useState(true);
 
-  function handleLogin() {
-    signIn({
-      email,
-      password,
-    });
-  }
+  const handleLogin = useCallback(
+    async (data: SigInFormData) => {
+      try {
+        formRef.current?.setErrors({});
+
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('Email obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().required('Senha obrigatória'),
+        });
+
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        await signIn({
+          email: data.email,
+          password: data.password,
+        });
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(error);
+          formRef.current?.setErrors(errors);
+        }
+        Alert.alert(
+          'Erro na autenticação',
+          'Ocorreu um erro ao fazer login ,valide suas credencias!',
+        );
+      }
+    },
+    [signIn],
+  );
 
   const enableVision = () => {
     setVisible(event => !event);
@@ -53,33 +87,52 @@ export default function Signin() {
         <AntDesign name="arrowleft" size={20} color="#000" />
       </Icon>
       <Main>
-        <Input
-          name="email"
-          icon="user"
-          placeholder="Email"
-          autoCapitalize="none"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-        />
-        <Input
-          name="password"
-          icon="lock"
-          icon_eyes_opened="eye"
-          icon_eyes_closed="eye-off"
-          placeholder="Senha"
-          secureTextEntry={!!visible}
-          onPress={enableVision}
-          value={password}
-          value_eye={visible}
-          onChangeText={setPassword}
-        />
-        <Button onPress={handleLogin}>Entrar</Button>
-        <Footer>
-          <Register onPress={() => navigation.navigate('Signup')}>
-            <Text>Crie sua conta</Text>
-          </Register>
-        </Footer>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+          <Form ref={formRef} onSubmit={handleLogin}>
+            <Input
+              name="email"
+              icon="user"
+              keyboardType="email-address"
+              placeholder="Email"
+              autoCapitalize="none"
+              autoCorrect={false}
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                passwordInputRef.current?.focus();
+              }}
+            />
+            <Input
+              ref={passwordInputRef}
+              name="password"
+              icon="lock"
+              icon_eyes_opened="eye"
+              icon_eyes_closed="eye-off"
+              placeholder="Senha"
+              secureTextEntry={!!visible}
+              onPress={enableVision}
+              value_eye={visible}
+              textContentType="newPassword"
+              returnKeyType="send"
+              onSubmitEditing={() => {
+                formRef.current?.submitForm();
+              }}
+            />
+            <Button
+              onPress={() => {
+                formRef.current?.submitForm();
+              }}
+            >
+              Entrar
+            </Button>
+          </Form>
+          <Footer>
+            <Register onPress={() => navigation.navigate('Signup')}>
+              <Text>Crie sua conta</Text>
+            </Register>
+          </Footer>
+        </KeyboardAvoidingView>
       </Main>
       <Separator />
       <TokenContent onPress={() => navigation.navigate('Token')}>

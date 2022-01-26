@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import Apploading from 'expo-app-loading';
@@ -27,9 +28,16 @@ export default function App() {
   if (!fontsLoaded) {
     return <Apploading />;
   }
+
+  const STATUS_BAR_HEIGHT =
+    Platform.OS === 'ios' ? 50 : StatusBar.currentHeight;
+  const HEADER_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
+
   return (
     <NavigationContainer>
-      <StatusBar style="auto" />
+      <View style={{ height: STATUS_BAR_HEIGHT, backgroundColor: '#fff' }}>
+        <StatusBar style="auto" translucent />
+      </View>
       <AppProvider>
         <Router />
       </AppProvider>

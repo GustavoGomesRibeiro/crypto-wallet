@@ -28,6 +28,7 @@ const Header = ({ value, onChangeText, onPress, ...rest }) => {
             autoCorrect={false}
             value={value}
             onChangeText={onChangeText}
+            returnKeyType="send"
             {...rest}
           />
           <Icon onPress={() => onPress()}>

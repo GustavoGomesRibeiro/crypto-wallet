@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Animated } from 'react-native';
 
 export const Success = styled(Animated.View)`
@@ -20,7 +20,7 @@ export const Error = styled(Animated.View)`
   border-radius: 10px;
 `;
 
-export const Icon = styled(Ionicons)``;
+export const Icon = styled(MaterialIcons)``;
 
 export const Text = styled.Text`
   color: #fff;

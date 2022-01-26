@@ -30,12 +30,17 @@ export default function CreateWallet() {
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [toast, setToast] = useState(false);
+  const [toastError, setToastError] = useState('');
 
   const data = { name, description };
 
   const createWallet = async () => {
     if (!name || !description) {
-      Alert.alert('Ops!', 'Os campos não devem ser vazios.');
+      setToastError('Error');
+
+      setTimeout(() => {
+        setToastError('');
+      }, 3000);
     } else {
       try {
         const response = await api.post<Wallet>('/wallets', data, {
@@ -59,14 +64,6 @@ export default function CreateWallet() {
     <Container>
       <MenuHeader title="Criar Carteira" />
       <Main>
-        {toast ? (
-          <AlertToastSuccess name="check" icon="checkmark-circle-outline">
-            Carteira cadastrada
-          </AlertToastSuccess>
-        ) : (
-          <></>
-        )}
-
         <Label>
           <LabelWallet>Nome da carteira</LabelWallet>
         </Label>
@@ -88,6 +85,21 @@ export default function CreateWallet() {
         <Register>
           <Button onPress={createWallet}>Cadastrar</Button>
         </Register>
+        {toast ? (
+          <AlertToastSuccess name="check" icon="check-circle-outline">
+            Carteira cadastrada com sucesso!
+          </AlertToastSuccess>
+        ) : (
+          <></>
+        )}
+
+        {toastError === 'Error' ? (
+          <AlertToastError name="error" icon="error">
+            Os campos não devem ser vazios.
+          </AlertToastError>
+        ) : (
+          <></>
+        )}
       </Main>
     </Container>
   );

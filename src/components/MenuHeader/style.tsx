@@ -2,9 +2,9 @@ import styled from 'styled-components/native';
 
 export const Header = styled.View`
   padding: 24px;
-  background-color: #f9fafc;
+  background-color: #fff;
   border-bottom-width: 1px;
-  border-color: #f9fafc;
+  border-color: #fff;
   padding-top: 44px;
   flex-direction: row;
   justify-content: space-between;
