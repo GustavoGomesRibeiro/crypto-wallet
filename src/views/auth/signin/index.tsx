@@ -1,21 +1,23 @@
 import React, { useState, useContext, useRef, useCallback } from 'react';
+import { Alert, KeyboardAvoidingView } from 'react-native';
+
+import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { useNavigation } from '@react-navigation/native';
-import { Alert, KeyboardAvoidingView } from 'react-native';
+import { ContextApi } from '../../../hooks/authContext';
+
 import getValidationErrors from '../../../utils/getValidationErrors';
 import { ReceiveScreen } from '../../../utils/navigationRoutes';
-import { ContextApi } from '../../../hooks/authContext';
 
 import Button from '../../../components/Button/index';
 import Input from '../../../components/Input/index';
+import { AlertToastError } from '../../../components/Toast/index';
 
 import { SigInFormData } from '../interfaces/index';
-
 import {
   Container,
   Text,
@@ -39,6 +41,7 @@ export default function Signin() {
   const navigation = useNavigation<ReceiveScreen>();
 
   const [visible, setVisible] = useState(true);
+  const [error, setError] = useState<string>('');
 
   const handleLogin = useCallback(
     async (data: SigInFormData) => {
@@ -65,10 +68,10 @@ export default function Signin() {
           const errors = getValidationErrors(error);
           formRef.current?.setErrors(errors);
         }
-        Alert.alert(
-          'Erro na autenticação',
-          'Ocorreu um erro ao fazer login ,valide suas credencias!',
-        );
+        setError('error');
+        setTimeout(() => {
+          setError('');
+        }, 3000);
       }
     },
     [signIn],
@@ -133,7 +136,17 @@ export default function Signin() {
             </Register>
           </Footer>
         </KeyboardAvoidingView>
+
+        {error === 'error' ? (
+          <AlertToastError name="error" icon="error">
+            {'                   '}Erro na autenticação {'\n'}
+            Ocorreu um erro valide suas credencias!
+          </AlertToastError>
+        ) : (
+          <></>
+        )}
       </Main>
+
       <Separator />
       <TokenContent onPress={() => navigation.navigate('Token')}>
         <IconKey>

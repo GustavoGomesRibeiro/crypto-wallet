@@ -13,7 +13,7 @@ export const Header = styled.View`
 `;
 
 export const Text = styled.Text`
-  font-family: 'Poppins_400Regular';
+  font-family: 'Poppins_700Bold';
   color: #000;
-  font-size: 16px;
+  font-size: 20px;
 `;

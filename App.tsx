@@ -7,6 +7,7 @@ import {
   useFonts,
   Poppins_400Regular,
   Poppins_700Bold,
+  Poppins_600SemiBold,
 } from '@expo-google-fonts/poppins';
 
 import {
@@ -22,6 +23,7 @@ export default function App() {
     Archivo_400Regular,
     Archivo_700Bold,
     Poppins_400Regular,
+    Poppins_600SemiBold,
     Poppins_700Bold,
   });
 

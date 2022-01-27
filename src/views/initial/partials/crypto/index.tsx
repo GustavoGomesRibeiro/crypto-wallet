@@ -51,112 +51,19 @@ interface Altcoins {
   message?: string;
 }
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-  }),
-});
-
-Notifications.scheduleNotificationAsync({
-  content: {
-    sound: 'default',
-    title: 'Informações das criptomoedas 💰',
-    body: 'Você tem uma nova menssagem, pamonha',
-    // data: { data: allCryptos?.success },
-  },
-  trigger: {
-    seconds: 60 * 60,
-    // repeats: true,
-  },
-});
-
 export default function Crypto() {
   const [allCryptos, getAllCryptos] = useState<Altcoins[]>([]);
   const [cryptoById, setcryptoById] = useState('');
   const [cryptosFiltered, setCryptosFiltered] = useState();
-  const [expoPushToken, setExpoPushToken] = useState('');
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      api.get('/cryptos').then(response => {
-        getAllCryptos(response.data);
-      });
-    }, 1000);
-    return () => clearInterval(interval);
+    // const interval = setInterval(() => {
+    api.get('/cryptos').then(response => {
+      getAllCryptos(response.data);
+    });
+    // }, 3000);
+    // return () => clearInterval(interval);
   }, []);
-
-  useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener(notification => {
-        setNotification(notification);
-      });
-
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener(response => {
-        console.log(response);
-      });
-
-    return () => {
-      Notifications.removeNotificationSubscription(
-        notificationListener.current,
-      );
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
-
-  async function registerForPushNotificationsAsync() {
-    let token;
-    if (Constants.isDevice) {
-      const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
-        return;
-      }
-      token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log(token);
-    } else {
-      // alert('Must use physical device for Push Notifications');
-      return;
-    }
-
-    if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
-      });
-    }
-
-    return token;
-  }
-
-  // local: send notification
-  // Notifications.scheduleNotificationAsync({
-  //   content: {
-  //     sound: 'default',
-  //     title: 'Informações das criptomoedas 💰',
-  //     body: 'Você tem uma nova menssagem',
-  //     // data: { data: allCryptos?.success },
-  //   },
-  //   trigger: {
-  //     seconds: 3600,
-  //     // repeats: true,
-  //   },
-  // });
 
   async function handleCryptoFilter(cryptoById) {
     if (!cryptoById) {

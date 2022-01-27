@@ -14,7 +14,7 @@ export const Container = styled.View`
 
 export const TextInput = styled.TextInput`
   flex: 1;
-  color: #fff;
+  color: ${props => props.color}
   font-size: 16px;
 `;
 

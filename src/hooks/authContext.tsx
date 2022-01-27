@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, createContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ReceiveScreen } from '../utils/navigationRoutes';
 import api from '../services/api';
@@ -45,10 +44,6 @@ function AuthProvider({ children }) {
   }, []);
 
   const signIn = useCallback(async ({ email, password }) => {
-    // if (!email || !password) {
-    //   Alert.alert('Informações invalidas', 'Os campos não podem ficar vazios!');
-    // } else {
-    // try {
     const response = await api.post('/login', {
       email,
       password,
@@ -69,13 +64,6 @@ function AuthProvider({ children }) {
     api.defaults.headers.authorization = `Bearer ${token}`;
 
     setAuthenticated({ token, name, lastName, role });
-    //   } catch (error) {
-    //     Alert.alert(
-    //       'Informações Inválidas',
-    //       'Ops! Usuário ou senha estão incorretos!',
-    //     );
-    //   }
-    // }
   }, []);
 
   const signOut = useCallback(async () => {

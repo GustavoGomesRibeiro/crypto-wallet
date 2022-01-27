@@ -1,9 +1,11 @@
-import React, { useState, useContext } from 'react';
-import { Alert } from 'react-native';
+import React, { useState, useContext, useRef, useCallback } from 'react';
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
+import * as Yup from 'yup';
 
 import { useNavigation } from '@react-navigation/native';
 import { ReceiveScreen } from '../../../../utils/navigationRoutes';
-
+import getValidationErrors from '../../../../utils/getValidationErrors';
 import { ContextApi } from '../../../../hooks/authContext';
 
 import {
@@ -15,91 +17,106 @@ import Input from '../../../../components/Input/index';
 import Button from '../../../../components/Button/index';
 import api from '../../../../services/api';
 
+import { Wallet } from '../../interfaces/index';
 import { Container, Main, Label, LabelWallet, Register } from './style';
 
-interface Wallet {
-  name: string;
-  description: string;
-  user_id: number;
-}
-
 export default function CreateWallet() {
+  const formRef = useRef<FormHandles>();
+  const descriptionInputRef = useRef<TextInput>(null);
+
   const { token } = useContext(ContextApi);
   const navigation = useNavigation<ReceiveScreen>();
 
-  const [name, setName] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [toast, setToast] = useState(false);
-  const [toastError, setToastError] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
 
-  const data = { name, description };
+  const createWallet = useCallback(async (data: Wallet) => {
+    try {
+      formRef.current?.setErrors({});
 
-  const createWallet = async () => {
-    if (!name || !description) {
-      setToastError('Error');
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Nome obrigatório'),
+        description: Yup.string().required('Descrição obrigatória'),
+      });
 
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      await api.post('/wallets', data, { headers: { Authorization: token } });
+
+      setSuccess(!success);
       setTimeout(() => {
-        setToastError('');
-      }, 3000);
-    } else {
-      try {
-        const response = await api.post<Wallet>('/wallets', data, {
-          headers: { Authorization: token },
-        });
-
-        if (response.status === 200) {
-          setToast(!toast);
-        }
-
-        setTimeout(() => {
-          navigation.navigate('Wallet');
-        }, 2000);
-      } catch (error) {
-        Alert.alert('Ops!', 'Alguma coisa deu errado.');
+        navigation.navigate('Wallet');
+      }, 2000);
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(error);
+        formRef.current?.setErrors(errors);
       }
+      setError('error');
+      setTimeout(() => {
+        setError('');
+      }, 3000);
     }
-  };
+  }, []);
 
   return (
     <Container>
       <MenuHeader title="Criar Carteira" />
       <Main>
-        <Label>
-          <LabelWallet>Nome da carteira</LabelWallet>
-        </Label>
-        <Input
-          value={name}
-          onChangeText={setName}
-          placeholder="ex. Criptmoedas"
-        />
+        <Form ref={formRef} onSubmit={createWallet}>
+          <Label>
+            <LabelWallet>Nome da carteira</LabelWallet>
+          </Label>
+          <Input
+            name="name"
+            returnKeyType="next"
+            placeholder="ex. Criptmoedas"
+            onSubmitEditing={() => {
+              descriptionInputRef.current?.focus();
+            }}
+          />
 
-        <Label>
-          <LabelWallet>Descrição da carteira</LabelWallet>
-        </Label>
-        <Input
-          value={description}
-          onChangeText={setDescription}
-          placeholder="ex. Carteira de criptomoedas"
-        />
+          <Label>
+            <LabelWallet>Descrição da carteira</LabelWallet>
+          </Label>
+          <Input
+            ref={descriptionInputRef}
+            name="description"
+            placeholder="ex. Carteira de criptomoedas"
+            returnKeyType="send"
+            onSubmitEditing={() => {
+              formRef.current?.focus();
+            }}
+          />
 
-        <Register>
-          <Button onPress={createWallet}>Cadastrar</Button>
-        </Register>
-        {toast ? (
-          <AlertToastSuccess name="check" icon="check-circle-outline">
-            Carteira cadastrada com sucesso!
-          </AlertToastSuccess>
-        ) : (
-          <></>
-        )}
+          <Register>
+            <Button
+              onPress={() => {
+                formRef.current?.submitForm();
+              }}
+            >
+              Cadastrar
+            </Button>
+          </Register>
 
-        {toastError === 'Error' ? (
-          <AlertToastError name="error" icon="error">
-            Os campos não devem ser vazios.
-          </AlertToastError>
-        ) : (
-          <></>
-        )}
+          {success ? (
+            <AlertToastSuccess name="check" icon="check-circle-outline">
+              Carteira cadastrada com sucesso!
+            </AlertToastSuccess>
+          ) : (
+            <></>
+          )}
+
+          {error === 'error' ? (
+            <AlertToastError name="error" icon="error">
+              Os campos não devem ser vazios.
+            </AlertToastError>
+          ) : (
+            <></>
+          )}
+        </Form>
       </Main>
     </Container>
   );

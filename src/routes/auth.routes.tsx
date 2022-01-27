@@ -93,7 +93,7 @@ export default function AuthRouter() {
       <Stack.Screen
         name="Signup"
         component={Signup}
-        options={{ title: 'Criar uma conta' }}
+        options={{ title: 'Criar uma conta', headerShown: false }}
       />
       <Stack.Screen
         name="Token"

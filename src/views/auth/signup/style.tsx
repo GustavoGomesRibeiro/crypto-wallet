@@ -21,6 +21,7 @@ export const Label = styled.View`
 
 export const RequiredField = styled.Text`
   font-family: Archivo_700Bold;
+  font-size: 16px;
 `;
 
 export const Icon = styled.TouchableOpacity`

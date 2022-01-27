@@ -79,9 +79,10 @@ const Input: React.ForwardRefRenderFunction<InputProps, InputRef> = (
           color={isFocused || isFilled ? '#ff9000' : '#666360'}
         />
         <TextInput
+          color={isFocused || isFilled ? '#fff' : '#666360'}
           ref={inputRef}
           defaultValue={defaultValue}
-          placeholderTextColor="#fff"
+          placeholderTextColor={isFocused || isFilled ? '#ff9000' : '#666360'}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           onChangeText={value => {

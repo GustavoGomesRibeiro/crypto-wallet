@@ -4,13 +4,17 @@ import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
 import { Alert, KeyboardAvoidingView } from 'react-native';
-import { MaterialIcons } from 'react-native-vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { ReceiveScreen } from '../../../utils/navigationRoutes';
 
 import api from '../../../services/api';
 import Input from '../../../components/Input/index';
 import Button from '../../../components/Button/index';
+import MenuHeader from '../../../components/MenuHeader/index';
+import {
+  AlertToastError,
+  AlertToastSuccess,
+} from '../../../components/Toast/index';
 
 import { RegisterUser } from '../interfaces/index';
 import { Container, Content, Main, Label, RequiredField } from './style';
@@ -26,9 +30,10 @@ export default function Signup() {
   const navigation = useNavigation<ReceiveScreen>();
 
   const [visible, setVisible] = useState(true);
+  const [error, setError] = useState<string>('');
+  const [success, setSuccess] = useState(false);
 
   const handleRegister = useCallback(async (data: RegisterUser) => {
-    console.log(data);
     if (data.password !== data.confirmPassword) {
       Alert.alert('Valide sua senha!', 'Senhas divergentes!');
     } else {
@@ -53,12 +58,10 @@ export default function Signup() {
 
         await api.post('/users', data);
 
-        Alert.alert(
-          'Cadastro realizado com sucesso!',
-          'Você já pode fazer logon na aplicação',
-        );
-
-        navigation.navigate('Signin');
+        setSuccess(!success);
+        setTimeout(() => {
+          navigation.navigate('Signin');
+        }, 2000);
       } catch (err) {
         const validationErrors = {};
         if (err instanceof Yup.ValidationError) {
@@ -68,10 +71,10 @@ export default function Signup() {
           formRef.current.setErrors(validationErrors);
         }
 
-        Alert.alert(
-          'Erro no cadastro',
-          'Ocorreu um erro ao fazer cadastro, tente novamente.',
-        );
+        setError('error');
+        setTimeout(() => {
+          setError('');
+        }, 3000);
       }
     }
   }, []);
@@ -82,103 +85,116 @@ export default function Signup() {
 
   return (
     <Container>
-      <Content>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <Content>
+          <MenuHeader title="Crie sua conta" />
           <Main>
-            <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            >
-              <Form ref={formRef} onSubmit={handleRegister}>
-                <Label>
-                  <RequiredField>Email</RequiredField>
-                </Label>
-                <Input
-                  ref={emailInputRef}
-                  placeholder="Email"
-                  autoCapitalize="none"
-                  name="email"
-                  icon="mail"
-                  keyboardType="email-address"
-                  returnKeyType="next"
-                  onSubmitEditing={() => {
-                    nameInputRef.current?.focus();
-                  }}
-                />
-                <Label>
-                  <RequiredField>Nome</RequiredField>
-                </Label>
-                <Input
-                  ref={nameInputRef}
-                  placeholder="Nome"
-                  name="name"
-                  icon="user"
-                  returnKeyType="next"
-                  onSubmitEditing={() => {
-                    lastNameInputRef.current?.focus();
-                  }}
-                />
-                <Label>
-                  <RequiredField>Sobrenome</RequiredField>
-                </Label>
-                <Input
-                  ref={lastNameInputRef}
-                  placeholder="Sobrenome"
-                  name="lastName"
-                  icon="user"
-                  returnKeyType="next"
-                  onSubmitEditing={() => {
-                    passwordInputRef.current?.focus();
-                  }}
-                />
-                <Label>
-                  <RequiredField>Senha</RequiredField>
-                </Label>
-                <Input
-                  ref={passwordInputRef}
-                  placeholder="Senha"
-                  name="password"
-                  icon="lock"
-                  icon_eyes_opened="eye"
-                  icon_eyes_closed="eye-off"
-                  value_eye={visible}
-                  onPress={enableVision}
-                  secureTextEntry={!!visible}
-                  returnKeyType="next"
-                  onSubmitEditing={() => {
-                    confirmPasswordInputRef.current?.focus();
-                  }}
-                />
-                <Label>
-                  <RequiredField>Repita sua senha</RequiredField>
-                </Label>
-                <Input
-                  placeholder="Repita sua senha"
-                  name="confirmPassword"
-                  icon="lock"
-                  icon_eyes_opened="eye"
-                  icon_eyes_closed="eye-off"
-                  value_eye={visible}
-                  onPress={enableVision}
-                  secureTextEntry={!!visible}
-                  returnKeyType="send"
-                  onSubmitEditing={() => {
-                    formRef.current?.submitForm();
-                  }}
-                />
-                <Button
-                  onPress={() => {
-                    formRef.current?.submitForm();
-                  }}
-                >
-                  Cadastrar
-                </Button>
-              </Form>
-            </KeyboardAvoidingView>
+            <Form ref={formRef} onSubmit={handleRegister}>
+              <Label>
+                <RequiredField>Email</RequiredField>
+              </Label>
+              <Input
+                ref={emailInputRef}
+                placeholder="Email"
+                autoCapitalize="none"
+                name="email"
+                icon="mail"
+                keyboardType="email-address"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  nameInputRef.current?.focus();
+                }}
+              />
+              <Label>
+                <RequiredField>Nome</RequiredField>
+              </Label>
+              <Input
+                ref={nameInputRef}
+                placeholder="Nome"
+                name="name"
+                icon="user"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  lastNameInputRef.current?.focus();
+                }}
+              />
+              <Label>
+                <RequiredField>Sobrenome</RequiredField>
+              </Label>
+              <Input
+                ref={lastNameInputRef}
+                placeholder="Sobrenome"
+                name="lastName"
+                icon="user"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  passwordInputRef.current?.focus();
+                }}
+              />
+              <Label>
+                <RequiredField>Senha</RequiredField>
+              </Label>
+              <Input
+                ref={passwordInputRef}
+                placeholder="Senha"
+                name="password"
+                icon="lock"
+                icon_eyes_opened="eye"
+                icon_eyes_closed="eye-off"
+                value_eye={visible}
+                onPress={enableVision}
+                secureTextEntry={!!visible}
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  confirmPasswordInputRef.current?.focus();
+                }}
+              />
+              <Label>
+                <RequiredField>Repita sua senha</RequiredField>
+              </Label>
+              <Input
+                placeholder="Repita sua senha"
+                name="confirmPassword"
+                icon="lock"
+                icon_eyes_opened="eye"
+                icon_eyes_closed="eye-off"
+                value_eye={visible}
+                onPress={enableVision}
+                secureTextEntry={!!visible}
+                returnKeyType="send"
+                onSubmitEditing={() => {
+                  formRef.current?.submitForm();
+                }}
+              />
+              <Button
+                onPress={() => {
+                  formRef.current?.submitForm();
+                }}
+              >
+                Cadastrar
+              </Button>
+              {error === 'error' ? (
+                <AlertToastError name="error" icon="error">
+                  {'                   '}Erro no cadastro {'\n'}
+                  Ocorreu um erro ao fazer o cadastro!
+                </AlertToastError>
+              ) : (
+                <></>
+              )}
+
+              {success ? (
+                <AlertToastSuccess name="success" icon="check-circle-outline">
+                  Cadastrado com sucesso
+                </AlertToastSuccess>
+              ) : (
+                <></>
+              )}
+            </Form>
           </Main>
-        </KeyboardAvoidingView>
-      </Content>
+        </Content>
+      </KeyboardAvoidingView>
     </Container>
   );
 }
