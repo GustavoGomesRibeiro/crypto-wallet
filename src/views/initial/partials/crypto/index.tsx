@@ -1,11 +1,11 @@
-import Constants from 'expo-constants';
-import * as Notifications from 'expo-notifications';
 import React, { useState, useEffect, useRef } from 'react';
-import { Alert } from 'react-native';
+import { Alert, FlatList } from 'react-native';
 import api from '../../../../services/api';
 import Header from '../../../../components/Header/index';
+import { ListItem, Loader } from '../../../../components/ListItem/index';
+
+import { Altcoins } from '../../interfaces/index';
 import {
-  Loading,
   Container,
   Main,
   Label,
@@ -14,7 +14,6 @@ import {
   LabelVariation,
   Details,
   Filtered,
-  Coins,
   ViewName,
   Thumb,
   NameCoin,
@@ -22,48 +21,30 @@ import {
   Variation,
   NegativeVariation,
   Number,
-  Text,
 } from './style';
 
-interface Altcoins {
-  data?: [
-    {
-      id?: string;
-      symbol?: string;
-      name?: string;
-      image: {
-        thumb?: string;
-      };
-    },
-    {
-      market_data?: {
-        current_price?: {
-          brl?: number;
-        };
-        price_change_percentage_24h?: {
-          brl?: number;
-        };
-      };
-    },
-  ];
-  success?: boolean;
-  id?: string;
-  message?: string;
-}
-
 export default function Crypto() {
-  const [allCryptos, getAllCryptos] = useState<Altcoins[]>([]);
+  const [cryptos, setCryptos] = useState<Altcoins[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
   const [cryptoById, setcryptoById] = useState('');
   const [cryptosFiltered, setCryptosFiltered] = useState();
 
   useEffect(() => {
-    // const interval = setInterval(() => {
-    api.get('/cryptos').then(response => {
-      getAllCryptos(response.data);
-    });
-    // }, 3000);
-    // return () => clearInterval(interval);
+    loadCryptos();
   }, []);
+
+  async function loadCryptos() {
+    if (loading) return;
+
+    setLoading(true);
+    const response = await api.get(`/cryptos?page=${page}&per_page=${perPage}`);
+
+    setCryptos([...cryptos, ...response.data.data]);
+    setPage(page + 1);
+    setLoading(false);
+  }
 
   async function handleCryptoFilter(cryptoById) {
     if (!cryptoById) {
@@ -75,17 +56,6 @@ export default function Crypto() {
     } catch (error) {
       Alert.alert('Ops!', 'Algo deu errado ao pesquisar token!');
     }
-  }
-
-  if (!allCryptos?.data) {
-    return (
-      <>
-        <Header />
-        <Loading>
-          <Text> Loading...</Text>
-        </Loading>
-      </>
-    );
   }
 
   return (
@@ -103,55 +73,14 @@ export default function Crypto() {
           <LabelVariation>% alt. 24h</LabelVariation>
         </Label>
         {cryptosFiltered === undefined || cryptoById === '' ? (
-          allCryptos?.data.map(crypto => {
-            return (
-              <Coins key={crypto.id}>
-                <Details>
-                  <ViewName>
-                    {crypto.name === undefined || '' ? (
-                      <NameCoin>--/--</NameCoin>
-                    ) : (
-                      <>
-                        <Thumb source={{ uri: crypto.image.thumb }} />
-                        <NameCoin>{crypto.name}</NameCoin>
-                      </>
-                    )}
-                  </ViewName>
-                  {crypto.market_data?.current_price?.brl === undefined ||
-                  '' ? (
-                    <CurrentPrice>R$ --</CurrentPrice>
-                  ) : (
-                    <CurrentPrice>
-                      R$
-                      {crypto.market_data?.current_price?.brl
-                        .toFixed(2)
-                        .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
-                    </CurrentPrice>
-                  )}
-
-                  {crypto.market_data?.price_change_percentage_24h >= 0 ? (
-                    <Variation>
-                      <Number>
-                        {crypto.market_data?.price_change_percentage_24h.toFixed(
-                          2,
-                        )}
-                        %
-                      </Number>
-                    </Variation>
-                  ) : (
-                    <NegativeVariation>
-                      <Number>
-                        {crypto.market_data?.price_change_percentage_24h.toFixed(
-                          2,
-                        )}
-                        %
-                      </Number>
-                    </NegativeVariation>
-                  )}
-                </Details>
-              </Coins>
-            );
-          })
+          <FlatList
+            data={cryptos}
+            keyExtractor={item => String(item.id)}
+            renderItem={({ item }) => <ListItem data={item} />}
+            onEndReached={loadCryptos}
+            onEndReachedThreshold={0.1}
+            ListFooterComponent={<Loader load={loading} />}
+          />
         ) : (
           <Filtered>
             <Details>

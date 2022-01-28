@@ -12,7 +12,7 @@ import Token from '../views/auth/token/index';
 // Tab
 import Crypto from '../views/initial/partials/crypto/index';
 import StockInvestiment from '../views/initial/partials/stockInvestiment/index';
-import InvestimentFunds from '../views/initial/partials/stockInvestiment/index';
+import InvestimentFunds from '../views/initial/partials/investimentsFunds/index';
 
 const Stack = createStackNavigator<RootParamsRouteList>();
 const Tab = createBottomTabNavigator();

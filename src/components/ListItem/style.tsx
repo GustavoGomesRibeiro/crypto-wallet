@@ -1,21 +1,8 @@
 import styled from 'styled-components/native';
 
-export const Loading = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+export const LoaderContent = styled.View`
+  padding: 10px;
 `;
-
-export const Container = styled.SafeAreaView``;
-
-export const Text = styled.Text``;
-
-export const Main = styled.View`
-  /* margin: 20px 0px; */
-  margin-bottom: 150px;
-`;
-
-export const Filtered = styled.TouchableOpacity``;
 
 export const Coins = styled.TouchableOpacity``;
 

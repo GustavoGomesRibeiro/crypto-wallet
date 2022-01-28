@@ -1,3 +1,7 @@
+export interface ListWallet {
+  name: string;
+  description: string;
+}
 export interface AddWallet {
   name: string;
   description: string;

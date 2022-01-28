@@ -6,6 +6,7 @@ import { ContextApi } from '../../hooks/authContext';
 import MenuHeader from '../../components/MenuHeader/index';
 import api from '../../services/api';
 
+import { ListWallet } from './interfaces/index';
 import {
   Loading,
   Text,
@@ -27,16 +28,11 @@ import {
   TextAssets,
 } from './style';
 
-interface Wallet {
-  name: string;
-  description: string;
-}
-
 export default function Wallet() {
   const { token } = useContext(ContextApi);
   const navigation = useNavigation<ReceiveScreen>();
 
-  const [wallets, setWallets] = useState<Wallet[]>([]);
+  const [wallets, setWallets] = useState<ListWallet[]>([]);
 
   useEffect(() => {
     const interval = setInterval(() => {
