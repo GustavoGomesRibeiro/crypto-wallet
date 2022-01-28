@@ -6,6 +6,7 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from 'react';
+
 import { MaterialIcons } from 'react-native-vector-icons';
 import { useField } from '@unform/core';
 import { InputProps, InputRef, InputValueReference } from './interfaces/index';
@@ -22,7 +23,8 @@ import {
 const Input: React.ForwardRefRenderFunction<InputProps, InputRef> = (
   {
     containerStyle,
-    value,
+    // value,
+    rawText,
     value_eye,
     onChangeText,
     onPress,
@@ -62,9 +64,35 @@ const Input: React.ForwardRefRenderFunction<InputProps, InputRef> = (
     registerField({
       name: fieldName,
       ref: inputValueRef.current,
-      path: 'value',
+      getValue() {
+        if (rawText) return rawText;
+        if (inputRef.current) return inputRef.current.value;
+        return '';
+      },
+      setValue(ref, value) {
+        if (inputRef.current) {
+          inputRef.current.setNativeProps({ text: value });
+          inputRef.current.value = value;
+        }
+      },
+      clearValue() {
+        if (inputRef.current) {
+          inputRef.current.setNativeProps({ text: '' });
+          inputRef.current.value = '';
+        }
+      },
+      // path: 'value',
     });
-  }, [fieldName, registerField]);
+  }, [fieldName, rawText, registerField]);
+
+  const handleChangeText = useCallback(
+    text => {
+      if (inputRef.current) inputRef.current.value = text;
+
+      if (onChangeText) onChangeText(text);
+    },
+    [onChangeText],
+  );
 
   return (
     <>
@@ -85,9 +113,7 @@ const Input: React.ForwardRefRenderFunction<InputProps, InputRef> = (
           placeholderTextColor={isFocused || isFilled ? '#ff9000' : '#666360'}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
-          onChangeText={value => {
-            inputValueRef.current.value = value;
-          }}
+          onChangeText={handleChangeText}
           {...rest}
         />
         <Button onPress={onPress}>

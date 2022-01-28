@@ -17,7 +17,7 @@ import Input from '../../../../components/Input/index';
 import Button from '../../../../components/Button/index';
 import api from '../../../../services/api';
 
-import { Wallet } from '../../interfaces/index';
+import { AddWallet } from '../../interfaces/index';
 import { Container, Main, Label, LabelWallet, Register } from './style';
 
 export default function CreateWallet() {
@@ -30,7 +30,7 @@ export default function CreateWallet() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
 
-  const createWallet = useCallback(async (data: Wallet) => {
+  const createWallet = useCallback(async (data: AddWallet) => {
     try {
       formRef.current?.setErrors({});
 
