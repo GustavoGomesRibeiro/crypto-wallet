@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
+import { RefreshControl } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { ReceiveScreen } from '../../utils/navigationRoutes';
@@ -28,12 +29,16 @@ import {
   TextAssets,
 } from './style';
 
+const wait = timeout => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
+
 export default function Wallet() {
   const { token } = useContext(ContextApi);
   const navigation = useNavigation<ReceiveScreen>();
 
   const [wallets, setWallets] = useState<ListWallet[]>([]);
-
+  const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     const interval = setInterval(() => {
       api
@@ -52,6 +57,11 @@ export default function Wallet() {
     setWallets(wallets.filter(wallet => wallet.id !== wallet.id));
   }
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
   if (!wallets) {
     return (
       <>
@@ -68,7 +78,11 @@ export default function Wallet() {
         icon="plus"
         title="Minhas Carteiras"
       />
-      <Content>
+      <Content
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <Main>
           {wallets.map(wallet => {
             return (

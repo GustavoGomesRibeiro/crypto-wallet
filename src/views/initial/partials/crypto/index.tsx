@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Alert, FlatList } from 'react-native';
+import { Alert, FlatList, RefreshControl } from 'react-native';
 import api from '../../../../services/api';
 import Header from '../../../../components/Header/index';
 import { ListItem, Loader } from '../../../../components/ListItem/index';
@@ -30,6 +30,7 @@ export default function Crypto() {
   const [perPage, setPerPage] = useState(10);
   const [cryptoById, setcryptoById] = useState('');
   const [cryptosFiltered, setCryptosFiltered] = useState();
+  // const [listData, setListData] = useState(initialData);
 
   useEffect(() => {
     loadCryptos();
@@ -39,7 +40,7 @@ export default function Crypto() {
     if (loading) return;
 
     setLoading(true);
-    const response = await api.get(`/cryptos?page=${page}&per_page=${perPage}`);
+    const response = await api.get(`/cryptos?per_page=${perPage}&page=${page}`);
 
     setCryptos([...cryptos, ...response.data.data]);
     setPage(page + 1);
@@ -74,6 +75,13 @@ export default function Crypto() {
         </Label>
         {cryptosFiltered === undefined || cryptoById === '' ? (
           <FlatList
+            refreshControl={
+              <RefreshControl
+                colors={['#9Bd35A', '#689F38']}
+                refreshing={loading}
+                onRefresh={loadCryptos}
+              />
+            }
             data={cryptos}
             keyExtractor={item => String(item.id)}
             renderItem={({ item }) => <ListItem data={item} />}

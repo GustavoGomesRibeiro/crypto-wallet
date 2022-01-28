@@ -1,9 +1,10 @@
-import React, { useState, useContext } from 'react';
-import Feather from 'react-native-vector-icons/Feather';
+import React, { useState, useContext, useCallback } from 'react';
+import { RefreshControl } from 'react-native';
 import {
   FontAwesome,
   MaterialIcons,
   Ionicons,
+  Feather,
 } from 'react-native-vector-icons';
 
 import { useNavigation } from '@react-navigation/native';
@@ -47,42 +48,50 @@ import {
   LabelWallet,
 } from './style';
 
+const wait = timeout => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
+
 export default function Home() {
   const { signOut, name, token, lastName, role } = useContext(ContextApi);
   const navigation = useNavigation<ReceiveScreen>();
 
   const [visible, setVisible] = useState(true);
-
-  // console.log({
-  //   name,
-  //   token,
-  //   lastName,
-  //   role,
-  // });
+  const [refreshing, setRefreshing] = useState(false);
 
   const enableVision = () => {
     setVisible(event => !event);
   };
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
   return (
     <Container>
-      <Content>
-        <Header>
-          <InfoUser>
-            <AreaUser>
-              <User>
-                <Feather name="user" size={20} color="#000" />
-              </User>
-              <Name>Olá, {name}</Name>
-            </AreaUser>
-            <Exit>
-              <SignOut onPress={signOut}>
-                <TextSignOut>Sair</TextSignOut>
-                <FontAwesome name="sign-out" size={20} color="#000" />
-              </SignOut>
-            </Exit>
-          </InfoUser>
-        </Header>
+      <Header>
+        <InfoUser>
+          <AreaUser>
+            <User>
+              <Feather name="user" size={20} color="#000" />
+            </User>
+            <Name>Olá, {name}</Name>
+          </AreaUser>
+          <Exit>
+            <SignOut onPress={signOut}>
+              <TextSignOut>Sair</TextSignOut>
+              <FontAwesome name="sign-out" size={20} color="#000" />
+            </SignOut>
+          </Exit>
+        </InfoUser>
+      </Header>
+
+      <Content
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <Main>
           <Investments
             style={{
