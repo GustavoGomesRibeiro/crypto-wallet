@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback, createContext } from 'react';
+import { ThemeProvider } from 'styled-components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { ReceiveScreen } from '../utils/navigationRoutes';
 import api from '../services/api';
+import { DarkTheme, LightTheme } from '../themes/index';
 
 const ContextApi = createContext();
 
@@ -18,7 +20,7 @@ function AuthProvider({ children }) {
     {} as AuthState,
   );
   const [loading, setLoading] = useState(true);
-
+  const [theme, setTheme] = useState<boolean>(false);
   const navigation = useNavigation<ReceiveScreen>();
 
   useEffect(() => {
@@ -73,19 +75,23 @@ function AuthProvider({ children }) {
   }, []);
 
   return (
-    <ContextApi.Provider
-      value={{
-        token: authenticated?.token,
-        name: authenticated.name,
-        lastName: authenticated.lastName,
-        role: authenticated.role,
-        signIn,
-        signOut,
-        loading,
-      }}
-    >
-      {children}
-    </ContextApi.Provider>
+    <ThemeProvider theme={theme === false ? LightTheme : DarkTheme}>
+      <ContextApi.Provider
+        value={{
+          token: authenticated?.token,
+          name: authenticated.name,
+          lastName: authenticated.lastName,
+          role: authenticated.role,
+          theme,
+          setTheme,
+          signIn,
+          signOut,
+          loading,
+        }}
+      >
+        {children}
+      </ContextApi.Provider>
+    </ThemeProvider>
   );
 }
 

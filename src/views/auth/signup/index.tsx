@@ -29,9 +29,9 @@ export default function Signup() {
 
   const navigation = useNavigation<ReceiveScreen>();
 
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const handleRegister = useCallback(async (data: RegisterUser) => {
     if (data.password !== data.confirmPassword) {
@@ -44,7 +44,7 @@ export default function Signup() {
             .required('E-mail obrigatório')
             .email('Digite um e-mail válido'),
           name: Yup.string().required('Nome obrigatório'),
-          lastName: Yup.string().required('Nome obrigatório'),
+          lastName: Yup.string().required('Sobrenome obrigatório'),
           password: Yup.string().min(
             6,
             'Digite uma senha de no mínimo 6 dígitos',

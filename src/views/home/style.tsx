@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
+  background: ${props => props.theme.background};
 `;
 export const Content = styled.ScrollView``;
 
@@ -16,6 +17,7 @@ export const InfoUser = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
+
 export const AreaUser = styled.View`
   flex-direction: row;
   align-items: center;
@@ -25,6 +27,7 @@ export const Exit = styled.View`
   flex-direction: row;
   align-items: center;
 `;
+
 export const SignOut = styled.TouchableOpacity`
   flex-direction: row;
 `;
@@ -59,6 +62,7 @@ export const Investments = styled.TouchableOpacity`
   width: 300px;
   border-radius: 10px;
   background: #fff;
+  /* background: ${props => props.theme.background}; */
   padding: 20px;
 `;
 export const ContentInvestiments = styled.View`
