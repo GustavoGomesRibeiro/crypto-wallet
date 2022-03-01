@@ -34,11 +34,12 @@ const wait = timeout => {
 };
 
 export default function Wallet() {
-  const { token } = useContext(ContextApi);
+  const { token, theme } = useContext(ContextApi);
   const navigation = useNavigation<ReceiveScreen>();
 
   const [wallets, setWallets] = useState<ListWallet[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+
   useEffect(() => {
     const interval = setInterval(() => {
       api
@@ -77,6 +78,7 @@ export default function Wallet() {
         onPress={() => navigation.navigate('CreateWallet')}
         icon="plus"
         title="Minhas Carteiras"
+        theme={theme}
       />
       <Content
         refreshControl={
@@ -101,9 +103,17 @@ export default function Wallet() {
                 key={wallet.id}
               >
                 <Icons>
-                  <Ionicons name="wallet" size={20} color="#000" />
+                  <Ionicons
+                    name="wallet"
+                    size={20}
+                    color={theme ? '#fff' : '#000'}
+                  />
                   <Delete onPress={() => handleRemoveWallet(wallet)}>
-                    <Ionicons name="trash" size={20} color="#000" />
+                    <Ionicons
+                      name="trash"
+                      size={20}
+                      color={theme ? '#fff' : '#000'}
+                    />
                   </Delete>
                 </Icons>
                 <Details>

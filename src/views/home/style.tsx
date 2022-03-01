@@ -1,15 +1,16 @@
 import styled from 'styled-components/native';
+import { GlobalStyle } from '../../styles/variables';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
-  background: ${props => props.theme.background};
+  background: ${props => props.theme.colors.background};
 `;
 export const Content = styled.ScrollView``;
 
 export const Header = styled.View`
   justify-content: center;
   height: 150px;
-  background: #fff;
+  background: ${props => props.theme.colors.menu};
   padding: 25px;
 `;
 
@@ -34,7 +35,8 @@ export const SignOut = styled.TouchableOpacity`
 
 export const TextSignOut = styled.Text`
   margin: 0 10px;
-  font-family: Poppins_700Bold;
+  font-family: ${GlobalStyle.fonts.poppinsBold};
+  color: ${props => props.theme.colors.color};
 `;
 
 export const User = styled.View`
@@ -48,8 +50,8 @@ export const User = styled.View`
 
 export const Name = styled.Text`
   margin-left: 10px;
-  font-family: Poppins_400Regular;
-  color: #000;
+  font-family: ${GlobalStyle.fonts.poppinsRegular};
+  color: ${props => props.theme.colors.color};
 `;
 
 export const Main = styled.View`
@@ -61,8 +63,7 @@ export const Main = styled.View`
 export const Investments = styled.TouchableOpacity`
   width: 300px;
   border-radius: 10px;
-  background: #fff;
-  /* background: ${props => props.theme.background}; */
+  background: ${props => props.theme.colors.primary};
   padding: 20px;
 `;
 export const ContentInvestiments = styled.View`
@@ -79,20 +80,21 @@ export const Hide = styled.TouchableOpacity`
 
 export const TextInvestments = styled.Text`
   font-size: 16px;
-  font-family: Poppins_700Bold;
-  color: #000;
+  font-family: ${GlobalStyle.fonts.poppinsBold};
   margin-top: 15px;
+  color: ${props => props.theme.colors.color};
 `;
 
 export const Label = styled.Text`
   font-size: 12px;
-  font-family: Poppins_400Regular;
-  color: #797979;
+  font-family: ${GlobalStyle.fonts.poppinsRegular};
+  color: ${props => props.theme.colors.color};
   margin-top: 20px;
 `;
 
 export const Patrimony = styled.Text`
-  font-family: Poppins_700Bold;
+  font-family: ${GlobalStyle.fonts.poppinsBold};
+  color: ${props => props.theme.colors.color}
   font-size: 16px;
 `;
 
@@ -110,14 +112,14 @@ export const Funds = styled.View``;
 export const LabelAssets = styled.Text`
   margin-right: 10px;
   font-size: 12px;
-  font-family: Poppins_400Regular;
+  font-family: ${GlobalStyle.fonts.poppinsRegular};
   color: #797979;
   margin-top: 20px;
 `;
 
 export const TextAssets = styled.Text`
-  font-family: Poppins_400Regular;
-  color: #000;
+  font-family: ${GlobalStyle.fonts.poppinsRegular};
+  color: ${props => props.theme.colors.color};
   font-size: 14px;
 `;
 
@@ -132,7 +134,8 @@ export const Title = styled.Text`
   width: 300px;
   border-radius: 10px;
   margin-bottom: 25px;
-  font-family: Poppins_700Bold;
+  font-family: ${GlobalStyle.fonts.poppinsBold};
+  color: ${props => props.theme.colors.color};
   font-size: 16px;
 `;
 
@@ -144,7 +147,7 @@ export const ContentActions = styled.View`
 export const Actions = styled.View`
   width: 300px;
   border-radius: 10px;
-  background: #fff;
+  background: ${props => props.theme.colors.primary};
   padding: 20px;
   margin-bottom: 25px;
 `;
@@ -153,15 +156,15 @@ export const AddTransaction = styled.TouchableOpacity``;
 
 export const LabelTransaction = styled.Text`
   font-size: 14px;
-  font-family: Poppins_400Regular;
-  color: #000;
+  font-family: ${GlobalStyle.fonts.poppinsRegular};
+  color: ${props => props.theme.colors.color};
   margin-top: 15px;
 `;
 
 export const LabelWallet = styled.Text`
   font-size: 14px;
-  font-family: Poppins_400Regular;
-  color: #000;
+  font-family: ${GlobalStyle.fonts.poppinsRegular};
+  color: ${props => props.theme.colors.color};
   margin-top: 15px;
 `;
 

@@ -33,6 +33,7 @@ const Input: React.ForwardRefRenderFunction<InputProps, InputRef> = (
     icon_eyes_open,
     icon_eyes_opened,
     icon_eyes_closed,
+    theme,
     ...rest
   },
   ref,

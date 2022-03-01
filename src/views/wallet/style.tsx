@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { GlobalStyle } from '../../styles/variables';
 
 export const Loading = styled.View`
   flex: 1;
@@ -8,23 +9,23 @@ export const Loading = styled.View`
 
 export const Text = styled.Text``;
 
-export const Container = styled.SafeAreaView`
+export const Container = styled.View`
   flex: 1;
+  background: ${props => props.theme.colors.background};
 `;
 
 export const Content = styled.ScrollView``;
 
 export const Main = styled.View`
-  flex: 1
   justify-content: center;
   align-items: center;
-  margin: 25px 0px;
+  margin-top: 25px;
 `;
 
 export const WalletContent = styled.TouchableOpacity`
   width: 300px;
   border-radius: 10px;
-  background: #fff;
+  background: ${props => props.theme.colors.primary};
   padding: 20px;
   margin-bottom: 25px;
 `;
@@ -42,20 +43,20 @@ export const Details = styled.View`
 
 export const Label = styled.Text`
   font-size: 16px;
-  font-family: Poppins_700Bold;
-  color: #000;
+  font-family: ${GlobalStyle.fonts.poppinsBold};
+  color: ${props => props.theme.colors.color};
 `;
 
 export const Name = styled.Text`
   font-size: 14px;
-  font-family: Poppins_400Regular;
-  color: #000;
+  font-family: ${GlobalStyle.fonts.poppinsRegular};
+  color: ${props => props.theme.colors.color};
 `;
 
 export const Description = styled.Text`
   font-size: 14px;
-  font-family: Poppins_400Regular;
-  color: #000;
+  font-family: ${GlobalStyle.fonts.poppinsRegular};
+  color: ${props => props.theme.colors.color};
 `;
 
 export const Assets = styled.View`
@@ -72,13 +73,13 @@ export const Funds = styled.View``;
 export const LabelAssets = styled.Text`
   margin-right: 10px;
   font-size: 12px;
-  font-family: Poppins_400Regular;
+  font-family: ${GlobalStyle.fonts.poppinsRegular};
   color: #797979;
   margin-top: 20px;
 `;
 
 export const TextAssets = styled.Text`
-  font-family: Poppins_400Regular;
-  color: #000;
+  font-family: ${GlobalStyle.fonts.poppinsRegular};
+  color: ${props => props.theme.colors.color};
   font-size: 14px;
 `;

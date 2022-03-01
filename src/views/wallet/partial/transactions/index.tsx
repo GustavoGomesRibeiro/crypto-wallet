@@ -37,7 +37,7 @@ import {
 } from './style';
 
 export default function Transaction() {
-  const { token } = useContext(ContextApi);
+  const { token, theme } = useContext(ContextApi);
   const formRef = useRef<FormHandles>();
 
   const navigation = useNavigation<ReceiveScreen>();
@@ -122,7 +122,7 @@ export default function Transaction() {
 
   return (
     <Container>
-      <MenuHeader title="Crie suas transações" />
+      <MenuHeader title="Crie suas transações" theme={theme} />
       <Content>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}

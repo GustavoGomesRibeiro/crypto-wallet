@@ -1,9 +1,23 @@
 export const LightTheme = {
-  background: '#f2f2f2',
-  color: '#000',
+  colors: {
+    primary: '#fff',
+    secundary: '#f61f',
+
+    background: '#f2f2f2',
+    color: '#000',
+    menu: '#fff',
+    input: '#232129',
+  },
 };
 
 export const DarkTheme = {
-  background: '#000',
-  color: '#fff',
+  colors: {
+    primary: '#25252f',
+    secundary: '#f1c446',
+
+    background: '#1e1c23',
+    color: '#fff',
+    menu: '#121212',
+    input: '#2d2b33',
+  },
 };

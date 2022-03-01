@@ -2,9 +2,9 @@ import styled from 'styled-components/native';
 
 export const Header = styled.View`
   padding: 24px;
-  background-color: #fff;
+  background: ${props => props.theme.colors.menu};
   border-bottom-width: 1px;
-  border-color: #fff;
+  border-color: ${props => props.theme.colors.menu};
   padding-top: 44px;
   flex-direction: row;
   justify-content: space-between;
@@ -14,6 +14,6 @@ export const Header = styled.View`
 
 export const Text = styled.Text`
   font-family: 'Poppins_700Bold';
-  color: #000;
+  color: ${props => props.theme.colors.color};
   font-size: 20px;
 `;

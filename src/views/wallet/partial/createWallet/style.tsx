@@ -1,7 +1,9 @@
 import styled from 'styled-components/native';
+import { GlobalStyle } from '../../../../styles/variables';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
+  background: ${props => props.theme.colors.background};
 `;
 
 export const Main = styled.View`
@@ -16,8 +18,8 @@ export const Label = styled.View`
 `;
 
 export const LabelWallet = styled.Text`
-  color: #000;
-  font-family: 'Poppins_700Bold';
+  color: ${props => props.theme.colors.color};
+  font-family: ${GlobalStyle.fonts.poppinsBold};
   font-size: 14px;
 `;
 

@@ -2,7 +2,10 @@ import React, { useState, useEffect, useCallback, createContext } from 'react';
 import { ThemeProvider } from 'styled-components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { ReceiveScreen } from '../utils/navigationRoutes';
+import PersitedTheme from '../utils/persitedTheme';
 import api from '../services/api';
 import { DarkTheme, LightTheme } from '../themes/index';
 
@@ -15,12 +18,16 @@ interface AuthState {
   role: string;
 }
 
+const STATUS_BAR_HEIGHT = Platform.OS === 'ios' ? 50 : StatusBar.currentHeight;
+// const HEADER_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
+
 function AuthProvider({ children }) {
   const [authenticated, setAuthenticated] = useState<AuthState>(
     {} as AuthState,
   );
-  const [loading, setLoading] = useState(true);
-  const [theme, setTheme] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [theme, setTheme] = useState(false);
+  // const [theme, setTheme] = PersitedTheme('theme', false);
   const navigation = useNavigation<ReceiveScreen>();
 
   useEffect(() => {
@@ -76,6 +83,14 @@ function AuthProvider({ children }) {
 
   return (
     <ThemeProvider theme={theme === false ? LightTheme : DarkTheme}>
+      <View
+        style={{
+          height: STATUS_BAR_HEIGHT,
+          backgroundColor: theme ? '#121212' : '#fff',
+        }}
+      >
+        <StatusBar style={theme ? 'light' : 'dark'} translucent />
+      </View>
       <ContextApi.Provider
         value={{
           token: authenticated?.token,

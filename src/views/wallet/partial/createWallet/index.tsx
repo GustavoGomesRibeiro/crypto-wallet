@@ -21,10 +21,11 @@ import { AddWallet } from '../../interfaces/index';
 import { Container, Main, Label, LabelWallet, Register } from './style';
 
 export default function CreateWallet() {
+  const { token, theme } = useContext(ContextApi);
+
   const formRef = useRef<FormHandles>();
   const descriptionInputRef = useRef<TextInput>(null);
 
-  const { token } = useContext(ContextApi);
   const navigation = useNavigation<ReceiveScreen>();
 
   const [success, setSuccess] = useState(false);
@@ -63,13 +64,14 @@ export default function CreateWallet() {
 
   return (
     <Container>
-      <MenuHeader title="Criar Carteira" />
+      <MenuHeader title="Criar Carteira" theme={theme} />
       <Main>
         <Form ref={formRef} onSubmit={createWallet}>
           <Label>
             <LabelWallet>Nome da carteira</LabelWallet>
           </Label>
           <Input
+            theme={theme}
             name="name"
             returnKeyType="next"
             placeholder="ex. Criptmoedas"

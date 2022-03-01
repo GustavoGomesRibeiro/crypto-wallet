@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import MenuHeader from '../../components/MenuHeader/index';
-import Button from '../../components/Button/index';
 import BiometricAuth from '../../utils/authenticationId';
 import { ContextApi } from '../../hooks/authContext';
 
 import {
   Container,
+  Header,
   ScrollView,
   Main,
   Label,
@@ -24,7 +24,7 @@ export default function Profile() {
     setFaceId(() => BiometricAuth());
   }
 
-  function ThemeMode() {
+  async function ThemeMode() {
     if (theme === false) {
       setTheme(true);
     } else {
@@ -34,8 +34,13 @@ export default function Profile() {
 
   return (
     <Container>
-      <MenuHeader title="Perfil" />
+      <MenuHeader title="Perfil" theme={theme} />
       <ScrollView>
+        <Header>
+          <Details>
+            <Title>Email</Title>
+          </Details>
+        </Header>
         <Main>
           <Label>App </Label>
           <Items>
@@ -71,7 +76,6 @@ export default function Profile() {
               />
             </Details>
           </Items>
-          {/* <Button onPress={BiometricAuth}>Teste</Button> */}
         </Main>
       </ScrollView>
     </Container>

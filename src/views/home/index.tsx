@@ -53,7 +53,7 @@ const wait = timeout => {
 };
 
 export default function Home() {
-  const { signOut, name, token, lastName, role } = useContext(ContextApi);
+  const { signOut, name, theme } = useContext(ContextApi);
   const navigation = useNavigation<ReceiveScreen>();
 
   const [visible, setVisible] = useState(true);
@@ -81,7 +81,11 @@ export default function Home() {
           <Exit>
             <SignOut onPress={signOut}>
               <TextSignOut>Sair</TextSignOut>
-              <FontAwesome name="sign-out" size={20} color="#000" />
+              <FontAwesome
+                name="sign-out"
+                size={20}
+                color={theme ? '#fff' : '#000'}
+              />
             </SignOut>
           </Exit>
         </InfoUser>
@@ -108,16 +112,20 @@ export default function Home() {
           >
             <ContentInvestiments>
               <Details>
-                <MaterialIcons name="swap-vert" size={20} color="#000" />
-                <TextInvestments> Investimentos </TextInvestments>
-                <Label> Patrimônio</Label>
+                <MaterialIcons
+                  name="swap-vert"
+                  size={20}
+                  color={theme ? '#fff' : '#000'}
+                />
+                <TextInvestments>Investimentos </TextInvestments>
+                <Label>Patrimônio</Label>
                 <Patrimony>R${visible ? '5.000,00' : ' ****'}</Patrimony>
               </Details>
               <Hide onPress={enableVision}>
                 <Feather
                   name={visible ? 'eye' : 'eye-off'}
                   size={20}
-                  color="#000"
+                  color={theme ? '#fff' : '#000'}
                 />
               </Hide>
             </ContentInvestiments>
@@ -157,7 +165,11 @@ export default function Home() {
               <AddTransaction
                 onPress={() => navigation.navigate('Transaction')}
               >
-                <MaterialIcons name="library-add" size={20} color="#000" />
+                <MaterialIcons
+                  name="library-add"
+                  size={20}
+                  color={theme ? '#fff' : '#000'}
+                />
                 <LabelTransaction>Adicionar transações</LabelTransaction>
                 <Label>
                   Adicione transações, criptomoedas, ações e fundos
@@ -179,7 +191,11 @@ export default function Home() {
               }}
             >
               <MyWallet onPress={() => navigation.navigate('CreateWallet')}>
-                <Ionicons name="wallet" size={20} color="#000" />
+                <Ionicons
+                  name="wallet"
+                  size={20}
+                  color={theme ? '#fff' : '#000'}
+                />
                 <LabelWallet>Criar uma carteira</LabelWallet>
                 <Label>
                   Crie e personalize sua carteira com seus investimentos

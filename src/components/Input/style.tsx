@@ -9,7 +9,10 @@ export const Container = styled.View`
   border-radius: 10px;
   margin-top: 10px;
   margin-top: 8px;
-  background: #232129;
+  background: ${props => props.theme.colors.input};
+  border: 2px
+    ${props =>
+      props.isFocused || props.isFilled ? '#ff9000' : props.theme.colors.input};
 `;
 
 export const TextInput = styled.TextInput`
