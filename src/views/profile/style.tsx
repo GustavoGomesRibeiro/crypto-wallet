@@ -6,12 +6,14 @@ export const Container = styled.View`
 `;
 export const ScrollView = styled.ScrollView``;
 
+export const Header = styled.View`
+  padding: 0px 30px;
+`;
+
 export const Main = styled.View``;
 
-export const Header = styled.View``;
-
 export const Items = styled.View`
-  /* margin-top: 10px; */
+  margin-top: 10px;
   background: ${props => props.theme.colors.primary};
   padding: 0px 30px;
 `;
@@ -28,6 +30,7 @@ export const Details = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  height: 50px;
   /* margin-top: 20px; */
 `;
 

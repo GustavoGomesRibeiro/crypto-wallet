@@ -31,7 +31,6 @@ export default function Profile() {
       setTheme(false);
     }
   }
-
   return (
     <Container>
       <MenuHeader title="Perfil" theme={theme} />
@@ -53,17 +52,7 @@ export default function Profile() {
                 onValueChange={ThemeMode}
               />
             </Details>
-            <Details>
-              <Title>Aparência</Title>
-              <Switch
-                thumbColor="#fff"
-                trackColor={{ false: '#ccc', true: '#39CC83' }}
-                value={theme}
-                onValueChange={ThemeMode}
-              />
-            </Details>
           </Items>
-          {/* <Label> Profile </Label> */}
           <Label>Segurança </Label>
           <Items>
             <Details>
@@ -74,6 +63,11 @@ export default function Profile() {
                 value={faceId}
                 onValueChange={ActivatedAuthentication}
               />
+            </Details>
+          </Items>
+          <Items>
+            <Details>
+              <Title>Mudar Senha</Title>
             </Details>
           </Items>
         </Main>
