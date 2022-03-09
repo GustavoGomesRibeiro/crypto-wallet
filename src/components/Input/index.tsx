@@ -20,9 +20,9 @@ import {
   Error,
 } from './style';
 
-const Input: React.ForwardRefRenderFunction<InputProps, InputRef> = (
+const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   {
-    containerStyle,
+    containerStyle = {},
     // value,
     rawText,
     value_eye,
@@ -62,24 +62,24 @@ const Input: React.ForwardRefRenderFunction<InputProps, InputRef> = (
   }));
 
   useEffect(() => {
-    registerField({
+    registerField<string>({
       name: fieldName,
       ref: inputValueRef.current,
       getValue() {
         if (rawText) return rawText;
-        if (inputRef.current) return inputRef.current.value;
+        if (inputValueRef.current) return inputValueRef.current.value;
         return '';
       },
       setValue(ref, value) {
         if (inputRef.current) {
+          inputValueRef.current.value = value;
           inputRef.current.setNativeProps({ text: value });
-          inputRef.current.value = value;
         }
       },
       clearValue() {
         if (inputRef.current) {
+          inputValueRef.current.value = '';
           inputRef.current.setNativeProps({ text: '' });
-          inputRef.current.value = '';
         }
       },
       // path: 'value',
@@ -88,7 +88,7 @@ const Input: React.ForwardRefRenderFunction<InputProps, InputRef> = (
 
   const handleChangeText = useCallback(
     text => {
-      if (inputRef.current) inputRef.current.value = text;
+      if (inputValueRef.current) inputValueRef.current.value = text;
 
       if (onChangeText) onChangeText(text);
     },

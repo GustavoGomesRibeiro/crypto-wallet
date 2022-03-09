@@ -12,6 +12,7 @@ import {
   Items,
   Details,
   Title,
+  Button,
   Switch,
 } from './style';
 
@@ -67,7 +68,9 @@ export default function Profile() {
           </Items>
           <Items>
             <Details>
-              <Title>Mudar Senha</Title>
+              <Button>
+                <Title>Mudar Senha</Title>
+              </Button>
             </Details>
           </Items>
         </Main>

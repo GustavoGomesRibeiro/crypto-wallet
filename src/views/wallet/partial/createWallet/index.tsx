@@ -71,7 +71,6 @@ export default function CreateWallet() {
             <LabelWallet>Nome da carteira</LabelWallet>
           </Label>
           <Input
-            theme={theme}
             name="name"
             returnKeyType="next"
             placeholder="ex. Criptmoedas"
@@ -89,7 +88,7 @@ export default function CreateWallet() {
             placeholder="ex. Carteira de criptomoedas"
             returnKeyType="send"
             onSubmitEditing={() => {
-              formRef.current?.focus();
+              formRef.current?.submitForm();
             }}
           />
 

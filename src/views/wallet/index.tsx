@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
-import { RefreshControl } from 'react-native';
+import { RefreshControl, Alert } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { ReceiveScreen } from '../../utils/navigationRoutes';
@@ -51,11 +51,20 @@ export default function Wallet() {
     return () => clearInterval(interval);
   }, []);
 
-  async function handleRemoveWallet(wallet) {
-    await api.delete(`/wallets/${wallet.id}`, {
-      headers: { Authorization: token },
-    });
-    setWallets(wallets.filter(wallet => wallet.id !== wallet.id));
+  function handleRemoveWallet(wallet) {
+    Alert.alert('Are you sure?', 'Are you want remove this wallet?', [
+      {
+        text: 'Yes',
+        onPress: async () => {
+          await api.delete(`/wallets/${wallet.id}`, {
+            headers: { Authorization: token },
+          });
+
+          setWallets(wallets.filter(wallet => wallet.id !== wallet.id));
+        },
+      },
+      { text: 'No' },
+    ]);
   }
 
   const onRefresh = useCallback(() => {

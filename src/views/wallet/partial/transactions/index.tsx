@@ -66,7 +66,11 @@ export default function Transaction() {
       const schema = Yup.object().shape({
         name: Yup.string().required('Nome obrigatório'),
         abbreviation: Yup.string().required('Abreviação do ativo obrigatória'),
-        quantity: Yup.number().required('Quantidade é obrigatória'),
+        quantity: Yup.number()
+          .typeError('Quantidade é obrigatória')
+          .min(0, 'Min value 1.')
+          .max(30, 'Max value 30.')
+          .required('Quantidade é obrigatória'),
         price: Yup.string().required('Preço é obrigatório'),
         fees: Yup.string().required('Taxa é obrigatória'),
         typeId: Yup.number().required('Tipo é obrigatória'),
@@ -195,7 +199,7 @@ export default function Transaction() {
                     suffixUnit: '',
                   }}
                   onSubmitEditing={() => {
-                    formRef.current?.focus();
+                    formRef.current?.submitForm();
                   }}
                 />
               </InputContainer>

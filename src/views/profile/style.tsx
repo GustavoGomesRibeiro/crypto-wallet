@@ -34,6 +34,8 @@ export const Details = styled.View`
   /* margin-top: 20px; */
 `;
 
+export const Button = styled.TouchableOpacity``;
+
 export const Title = styled.Text`
   font-size: 14px;
   font-family: Poppins_400Regular;
