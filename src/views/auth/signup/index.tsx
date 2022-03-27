@@ -59,6 +59,7 @@ export default function Signup() {
         await api.post('/users', data);
 
         setSuccess(!success);
+
         setTimeout(() => {
           navigation.navigate('Signin');
         }, 2000);
@@ -72,9 +73,9 @@ export default function Signup() {
         }
 
         setError('error');
-        setTimeout(() => {
-          setError('');
-        }, 3000);
+        // setTimeout(() => {
+        //   setError('');
+        // }, 3000);
       }
     }
   }, []);
@@ -87,8 +88,9 @@ export default function Signup() {
     <Container>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        testID="keyboard"
       >
-        <Content>
+        <Content testID="ScrollView">
           <MenuHeader title="Crie sua conta" />
           <Main>
             <Form ref={formRef} onSubmit={handleRegister}>
@@ -96,6 +98,7 @@ export default function Signup() {
                 <RequiredField>Email</RequiredField>
               </Label>
               <Input
+                testID="input-email"
                 ref={emailInputRef}
                 placeholder="Email"
                 autoCapitalize="none"
@@ -111,6 +114,7 @@ export default function Signup() {
                 <RequiredField>Nome</RequiredField>
               </Label>
               <Input
+                testID="input-name"
                 ref={nameInputRef}
                 placeholder="Nome"
                 name="name"
@@ -124,6 +128,7 @@ export default function Signup() {
                 <RequiredField>Sobrenome</RequiredField>
               </Label>
               <Input
+                testID="input-lastname"
                 ref={lastNameInputRef}
                 placeholder="Sobrenome"
                 name="lastName"
@@ -137,6 +142,7 @@ export default function Signup() {
                 <RequiredField>Senha</RequiredField>
               </Label>
               <Input
+                testID="input-password"
                 ref={passwordInputRef}
                 placeholder="Senha"
                 name="password"
@@ -155,6 +161,7 @@ export default function Signup() {
                 <RequiredField>Repita sua senha</RequiredField>
               </Label>
               <Input
+                testID="input-repeatPass"
                 placeholder="Repita sua senha"
                 name="confirmPassword"
                 icon="lock"
@@ -169,14 +176,20 @@ export default function Signup() {
                 }}
               />
               <Button
+                testID="button-send"
                 onPress={() => {
                   formRef.current?.submitForm();
                 }}
               >
                 Cadastrar
               </Button>
+
               {error === 'error' ? (
-                <AlertToastError name="error" icon="error">
+                <AlertToastError
+                  testID="error-message"
+                  name="error"
+                  icon="error"
+                >
                   {'                   '}Erro no cadastro {'\n'}
                   Ocorreu um erro ao fazer o cadastro!
                 </AlertToastError>
@@ -185,7 +198,11 @@ export default function Signup() {
               )}
 
               {success ? (
-                <AlertToastSuccess name="success" icon="check-circle-outline">
+                <AlertToastSuccess
+                  testID="success-message"
+                  name="success"
+                  icon="check-circle-outline"
+                >
                   Cadastrado com sucesso
                 </AlertToastSuccess>
               ) : (

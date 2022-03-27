@@ -34,6 +34,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
     icon_eyes_opened,
     icon_eyes_closed,
     theme,
+    testID,
     ...rest
   },
   ref,
@@ -108,6 +109,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
           color={isFocused || isFilled ? '#ff9000' : '#666360'}
         />
         <TextInput
+          testID={testID}
           color={isFocused || isFilled ? '#fff' : '#666360'}
           ref={inputRef}
           defaultValue={defaultValue}

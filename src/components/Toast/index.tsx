@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 import { Success, Error, Icon, Text } from './style';
 
-const AlertToastSuccess = ({ children, name, icon }) => {
+const AlertToastSuccess = ({ children, name, icon, testID }) => {
   const opacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -22,6 +22,7 @@ const AlertToastSuccess = ({ children, name, icon }) => {
   }, []);
   return (
     <Success
+      testID={testID}
       style={{
         marginTop: 50,
         opacity,
@@ -50,7 +51,7 @@ const AlertToastSuccess = ({ children, name, icon }) => {
   );
 };
 
-const AlertToastError = ({ children, name, icon }) => {
+const AlertToastError = ({ children, name, icon, testID }) => {
   const opacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -71,6 +72,7 @@ const AlertToastError = ({ children, name, icon }) => {
 
   return (
     <Error
+      testID={testID}
       style={{
         marginTop: 50,
         opacity,

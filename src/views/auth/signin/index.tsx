@@ -89,7 +89,7 @@ export default function Signin() {
       <Icon onPress={() => navigation.navigate('Initial')}>
         <AntDesign name="arrowleft" size={20} color="#000" />
       </Icon>
-      <Main>
+      <Main testID="MainView">
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
@@ -131,7 +131,10 @@ export default function Signin() {
             </Button>
           </Form>
           <Footer>
-            <Register onPress={() => navigation.navigate('Signup')}>
+            <Register
+              onPress={() => navigation.navigate('Signup')}
+              testID="button-createAccount"
+            >
               <Text>Crie sua conta</Text>
             </Register>
           </Footer>

@@ -68,7 +68,7 @@ export default function Crypto() {
         keyboardType="web-search"
       />
       <Main>
-        <Label testID="LabelTeste">
+        <Label>
           <LabelCoin>Par</LabelCoin>
           <LabelPrice> Último preço </LabelPrice>
           <LabelVariation>% alt. 24h</LabelVariation>

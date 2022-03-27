@@ -35,7 +35,10 @@ const Header = ({ value, onChangeText, onPress, ...rest }) => {
             <MaterialIcons name="search" size={20} color="#000" />
           </Icon>
         </ContainerInput>
-        <Signin onPress={() => navigation.navigate('Signin')}>
+        <Signin
+          onPress={() => navigation.navigate('Signin')}
+          testID="button-signin"
+        >
           <Text>Login</Text>
           <FontAwesome name="sign-in" size={20} color="#000" />
         </Signin>
